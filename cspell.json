@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "Cribl",
+    "deadnix",
+    "direnv",
+    "nixfmt",
+    "nixpkgs",
+    "shellcheck",
+    "statix",
+    "worktree",
+    "worktrees"
+  ],
+  "ignorePaths": [
+    "flake.lock",
+    "*.lock",
+    "node_modules",
+    ".git"
+  ]
+}

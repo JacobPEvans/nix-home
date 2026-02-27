@@ -1,8 +1,10 @@
 # nix-home
 
-### Your dev environment, declared once. Works everywhere.
+## Your dev environment, declared once. Works everywhere
 
-Dotfiles, but better. Instead of fragile symlinks and install scripts, **nix-home** declares your development environment as code using [Nix](https://nixos.org/). Switch machines? One command. Everything's back.
+Dotfiles, but better. Instead of fragile symlinks and install scripts,
+**nix-home** declares your development environment as code using [Nix](https://nixos.org/).
+Switch machines? One command. Everything's back.
 
 ---
 
