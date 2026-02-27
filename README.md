@@ -57,7 +57,7 @@ sharedModules = [ nix-home.homeManagerModules.default ];
 |------|-------------|
 | [nix-ai](https://github.com/JacobPEvans/nix-ai) | AI coding tools (Claude, Gemini, Copilot) |
 | **nix-home** (you are here) | Dev environment |
-| [nix-config](https://github.com/JacobPEvans/nix-config) | macOS system config (consumes both) |
+| [nix-darwin](https://github.com/JacobPEvans/nix-darwin) | macOS system config (consumes both) |
 
 ## License
 
