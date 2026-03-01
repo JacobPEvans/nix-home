@@ -24,11 +24,10 @@ with pkgs;
   git-bug # Distributed bug tracker embedded in git (git bug command)
 
   # ==========================================================================
-  # Node.js and Bun Runtimes
+  # Bun Runtime
   # ==========================================================================
-  # Provides npm, npx (from nodejs) and bunx (from bun)
-  # Essential development tools for JavaScript/TypeScript projects
-  nodejs # Provides npm and npx (node package executor)
+  # Fast all-in-one JavaScript runtime (provides bunx)
+  # nodejs is available per-repo via devShells
   bun # Fast all-in-one JavaScript runtime (provides bunx)
 
   # ==========================================================================
@@ -97,11 +96,11 @@ with pkgs;
   pyright # Static type checker for Python
 
   # Python interpreters: Multiple versions via Nix (no pip - packages via Nix only)
-  # Available: python3 (3.13), python314, python312, python310
+  # Available: python3 (3.13), python314, python312
   # For Python 3.9 (Splunk, EOL): Use `uv run --python 3.9` (on-demand download)
+  # python310 available per-repo via devShells
   python314 # Python 3.14: Bleeding edge features
   python312 # Python 3.12: General development and testing
-  python310 # Python 3.10: Older compatibility testing
 
   # uv: For running EOL Python versions (3.9) not in nixpkgs
   # Usage: uv run --python 3.9 pytest tests/

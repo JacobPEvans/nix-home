@@ -73,5 +73,30 @@
 
       # Formatter
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+
+      # Templates for scaffolding per-repo devShells
+      # Usage: nix flake init -t github:JacobPEvans/nix-home#ansible
+      templates = {
+        ansible = {
+          path = ./templates/ansible;
+          description = "Ansible configuration management dev environment";
+        };
+        terraform = {
+          path = ./templates/terraform;
+          description = "Terraform/Terragrunt infrastructure dev environment";
+        };
+        kubernetes = {
+          path = ./templates/kubernetes;
+          description = "Kubernetes development and validation environment";
+        };
+        containers = {
+          path = ./templates/containers;
+          description = "Container development, building, and registry environment";
+        };
+        splunk-dev = {
+          path = ./templates/splunk-dev;
+          description = "Splunk development environment (Python 3.9 via uv)";
+        };
+      };
     };
 }

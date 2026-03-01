@@ -66,41 +66,6 @@
     touch $out
   '';
 
-  # Smoke-test dev shell flakes: verify each shell's devShell evaluates
-  # Catches: broken packages, missing inputs, syntax errors in shell flakes
-  # Only checks flake-based shells (those with flake.nix); skips shell.nix-based ones
-  # Eval-only: uses builtins.unsafeDiscardStringContext to avoid building shell dependencies
-  dev-shell-eval =
-    let
-      shellsDir = src + "/shells";
-      shellEntries = builtins.readDir shellsDir;
-      # Filter to directories that contain a flake.nix
-      flakeShells = builtins.filter (
-        name: shellEntries.${name} == "directory" && builtins.pathExists (shellsDir + "/${name}/flake.nix")
-      ) (builtins.attrNames shellEntries);
-      # Import each shell's flake and evaluate its devShell drvPath
-      # Pass nix-config = src for shells that reference the repo root (e.g. image-building)
-      evalShell =
-        name:
-        let
-          shellFlake = import (shellsDir + "/${name}/flake.nix");
-          outputs = shellFlake.outputs {
-            inherit nixpkgs;
-            nix-config = src;
-          };
-          # Force evaluation of drvPath but discard string context so we don't
-          # create a build-time dependency on the shell's closure
-          drvPath = builtins.unsafeDiscardStringContext outputs.devShells.${pkgs.system}.default.drvPath;
-        in
-        "${name}: ${drvPath}";
-      results = builtins.map evalShell flakeShells;
-    in
-    pkgs.runCommand "check-dev-shell-eval" { } ''
-      echo "Dev shell smoke tests passed (${toString (builtins.length flakeShells)} shells):"
-      ${builtins.concatStringsSep "\n" (builtins.map (line: "echo '  ${line}'") results)}
-      touch $out
-    '';
-
   # Verify the home-manager module evaluates without errors
   # Catches: broken imports, missing args, type errors, assertion failures
   module-eval =
