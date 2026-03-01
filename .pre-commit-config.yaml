@@ -47,4 +47,5 @@ repos:
     rev: v1.22.0
     hooks:
       - id: zizmor
+        files: ^\\.github/workflows/.*\\.ya?ml$
         args: ['--persona=regular', '--min-severity=medium', '--min-confidence=medium']
