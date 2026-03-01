@@ -3,6 +3,8 @@
 {
   pkgs,
   src,
+  home-manager,
+  homeModule,
 }:
 {
   # Check Nix formatting with nixfmt-rfc-style
@@ -62,4 +64,24 @@
     ' bash
     touch $out
   '';
+
+  # Verify the home-manager module evaluates without errors
+  # Catches: broken imports, missing args, type errors, assertion failures
+  module-eval =
+    let
+      hmConfig = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          homeModule
+          {
+            home = {
+              username = "test-user";
+              homeDirectory = "/home/test-user";
+              stateVersion = "24.11";
+            };
+          }
+        ];
+      };
+    in
+    hmConfig.activationPackage;
 }
