@@ -11,7 +11,12 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }:
     let
       # Systems to generate outputs for
       supportedSystems = [
@@ -42,8 +47,9 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         import ./lib/checks.nix {
-          inherit pkgs;
+          inherit pkgs home-manager;
           src = ./.;
+          homeModule = self.homeManagerModules.default;
         }
       );
 
@@ -63,8 +69,6 @@
             ];
           };
         }
-        # Import all shell environments from the shells/ directory
-        # Each subdirectory contains a flake.nix that defines a devShell
       );
 
       # Formatter
