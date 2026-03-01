@@ -1,0 +1,56 @@
+# Zizmor security scanner configuration
+# See: https://docs.zizmor.sh/configuration/
+#
+# Pre-commit uses: --persona=regular --min-severity=medium --min-confidence=medium
+# This catches high-signal security issues while reducing noise.
+#
+# To run a full audit: zizmor --persona=auditor .github/workflows/
+
+rules:
+  # IGNORED: Requires pinning all actions to SHA hashes
+  # TODO: Create a separate PR to pin all actions to commit SHAs
+  # This is a significant change requiring updates across all workflows
+  unpinned-uses:
+    ignore:
+      - auto-merge.yml
+      - ci-fail-issue.yml
+      - ci-fix.yml
+      - ci-gate.yml
+      - claude-review.yml
+      - final-pr-review.yml
+      - issue-auto-resolve.yml
+      - post-merge-docs-review.yml
+      - post-merge-tests.yml
+      - release-please.yml
+      - trigger-nix-update.yml
+
+  # IGNORED: workflow_run triggers are used intentionally for post-CI workflows
+  # These workflows only read artifacts and open issues/PRs — they do not execute
+  # untrusted code. The pattern is standard for post-merge automation.
+  # TODO: Create a separate PR to evaluate restricting these triggers further
+  dangerous-triggers:
+    ignore:
+      - ci-fail-issue.yml
+      - ci-fix.yml
+
+  # IGNORED: Broad permissions are required by these reusable workflow callers
+  # The called workflows (from ai-workflows) need write access to operate.
+  # TODO: Create a separate PR to scope permissions to individual jobs
+  excessive-permissions:
+    ignore:
+      - issue-auto-resolve.yml
+      - post-merge-docs-review.yml
+      - post-merge-tests.yml
+
+  # IGNORED: secrets: inherit is used intentionally to pass tokens to reusable workflows
+  # The called workflows (from ai-workflows) require secrets for GitHub API access.
+  # TODO: Create a separate PR to pass only required secrets explicitly
+  secrets-inherit:
+    ignore:
+      - ci-fail-issue.yml
+      - ci-fix.yml
+      - claude-review.yml
+      - final-pr-review.yml
+      - issue-auto-resolve.yml
+      - post-merge-docs-review.yml
+      - post-merge-tests.yml
