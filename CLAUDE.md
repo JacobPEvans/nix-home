@@ -24,6 +24,17 @@ This repo exports home-manager modules consumed by nix-config (nix-darwin):
 - `overlays.default` -- Python package overrides
 - `checks` -- Quality checks on 4 systems
 - `devShells.default` -- Nix development tools
+- `templates` -- Scaffolding templates for per-repo devShells (ansible, terraform, kubernetes, containers, splunk-dev)
+
+Per-repo devShells replace the old centralized `shells/` directory. Each repo owns its own `flake.nix`:
+
+```bash
+# Scaffold a new repo's dev environment from a template
+nix flake init -t github:JacobPEvans/nix-home#ansible
+
+# Or use community templates for standard languages
+nix flake init -t github:the-nix-way/dev-templates#go
+```
 
 ## Key Files
 
@@ -31,7 +42,7 @@ This repo exports home-manager modules consumed by nix-config (nix-darwin):
 - `modules/home-manager/tmux.nix` -- Tmux configuration
 - `modules/monitoring/` -- Kubernetes monitoring stack
 - `overlays/python-packages.nix` -- Custom Python package overlays
-- `shells/` -- Development shell environments (Python, Go, Terraform, K8s, etc.)
+- `templates/` -- Per-repo devShell templates (ansible, terraform, kubernetes, containers, splunk-dev)
 - `lib/checks.nix` -- Quality check definitions
 
 ## Testing Locally
