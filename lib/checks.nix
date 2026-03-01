@@ -2,6 +2,7 @@
 # Used by flake.nix checks output, ensuring DRY principle
 {
   pkgs,
+  nixpkgs,
   src,
   home-manager,
   homeModule,
@@ -69,8 +70,30 @@
   # Catches: broken imports, missing args, type errors, assertion failures
   module-eval =
     let
+      # Use a pkgs instance with allowUnfree for the module eval check since
+      # the module enables vscode (unfree). This is test-only; real deployments
+      # set allowUnfree in their nixpkgs config.
+      pkgsWithUnfree = import nixpkgs {
+        inherit (pkgs) system;
+        config.allowUnfree = true;
+      };
       hmConfig = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = pkgsWithUnfree;
+        extraSpecialArgs = {
+          userConfig = {
+            nix.homeManagerStateVersion = "24.11";
+            user = {
+              name = "test-user";
+              email = "test@example.com";
+              fullName = "Test User";
+            };
+            git = {
+              editor = "vim";
+              defaultBranch = "main";
+            };
+            gpg.signingKey = "";
+          };
+        };
         modules = [
           homeModule
           {

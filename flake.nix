@@ -47,7 +47,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         import ./lib/checks.nix {
-          inherit pkgs home-manager;
+          inherit pkgs nixpkgs home-manager;
           src = ./.;
           homeModule = self.homeManagerModules.default;
         }
