@@ -56,33 +56,39 @@ sharedModules = [ nix-home.homeManagerModules.default ];
 | `checks` | Formatting, linting, dead code, module eval (4 systems) |
 | `devShells.default` | Nix development tools |
 | `formatter` | nixfmt-tree |
+| `templates` | Per-repo devShell scaffolding (5 templates) |
 
-## Dev shells
+## Templates
 
-The `shells/` directory contains 13+ standalone development environment templates,
-each a self-contained Nix flake you can copy into any project and activate with direnv.
+Each project owns its own devShell. Use the `templates` flake output to scaffold a
+`flake.nix` + `.envrc` into any repo — then activate with direnv.
 
-| Shell | Description | Key packages |
-|-------|-------------|-------------|
-| `ansible/` | Ansible automation | Ansible, Python, ansible-lint |
-| `claude-sdk-python/` | Claude Agent SDK (Python) | Python 3.11, Anthropic SDK, pytest, ruff |
-| `claude-sdk-typescript/` | Claude Agent SDK (TypeScript) | Node.js, TypeScript, ts-node |
-| `containers/` | Container tooling | docker, crane, skopeo |
-| `go/` | Go development | Go, gopls, delve |
-| `image-building/` | Image build tooling | Packer and image build tools |
-| `infrastructure-automation/` | Complete IaC toolkit | Ansible, Terraform, AWS, Packer |
-| `js/` | Node.js development | Node.js, npm, yarn, pnpm |
-| `kubernetes/` | Kubernetes validation and orchestration | kubectl, helm, kubeconform, kube-linter, kind, k9s |
-| `powershell/` | PowerShell scripting | PowerShell 7.x, .NET SDK |
-| `python/` | Basic Python development | Python, pip, venv |
-| `python-data/` | Data science / ML | Python, pandas, numpy, jupyter |
-| `python310/` | Python 3.10 pinned environment | Python 3.10 |
-| `python312/` | Python 3.12 pinned environment | Python 3.12 |
-| `python314/` | Python 3.14 pinned environment | Python 3.14 |
-| `splunk-dev/` | Splunk development | Splunk SDK and tooling |
-| `terraform/` | Infrastructure as Code | Terraform, Terragrunt, OpenTofu, tflint, checkov |
+| Template | Description |
+|----------|-------------|
+| `ansible` | Ansible configuration management dev environment |
+| `terraform` | Terraform/Terragrunt infrastructure dev environment |
+| `kubernetes` | Kubernetes development and validation environment |
+| `containers` | Container development, building, and registry environment |
+| `splunk-dev` | Splunk development environment (Python 3.9 via uv) |
 
-See [`shells/README.md`](shells/README.md) for full details and usage instructions.
+```sh
+# Scaffold a new repo's dev environment
+nix flake init -t github:JacobPEvans/nix-home#ansible
+nix flake init -t github:JacobPEvans/nix-home#terraform
+nix flake init -t github:JacobPEvans/nix-home#kubernetes
+nix flake init -t github:JacobPEvans/nix-home#containers
+nix flake init -t github:JacobPEvans/nix-home#splunk-dev
+
+# Then allow direnv (one-time per worktree)
+direnv allow
+```
+
+For standard languages, use community templates:
+
+```sh
+nix flake init -t github:the-nix-way/dev-templates#go
+nix flake init -t github:the-nix-way/dev-templates#node
+```
 
 ### Monitoring
 
