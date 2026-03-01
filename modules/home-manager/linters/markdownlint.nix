@@ -14,12 +14,12 @@
 # - gitignore: true (respect .gitignore patterns)
 #
 # Usage:
-#   markdownlint-cli2 --config ~/.markdownlint-cli2.yaml <file>
+#   markdownlint-cli2 --config ~/.markdownlint-cli2.jsonc <file>
 #   pre-commit run markdownlint-cli2 --all-files
 
 { config, ... }:
 
 {
-  # ~/.markdownlint-cli2.yaml - Markdownlint configuration
-  ".markdownlint-cli2.yaml".source = ../../../.markdownlint-cli2.yaml;
+  # ~/.markdownlint-cli2.jsonc - Markdownlint configuration (JSONC format)
+  ".markdownlint-cli2.jsonc".source = ../../../.markdownlint-cli2.jsonc;
 }
