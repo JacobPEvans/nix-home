@@ -99,11 +99,15 @@ for architecture details, components, and quick start instructions.
 
 ## Part of a trio
 
-| Repo | What it does |
-|------|-------------|
-| [nix-ai](https://github.com/JacobPEvans/nix-ai) | AI coding tools (Claude, Gemini, Copilot) |
-| **nix-home** (you are here) | Dev environment |
-| [nix-darwin](https://github.com/JacobPEvans/nix-darwin) | macOS system config (consumes both) |
+**nix-home** manages your user-level development environment using home-manager modules.
+It provides shell config, editor settings, CLI dev tools, linters, and dotfiles.
+Consumed as a flake input by nix-darwin (macOS) and usable standalone on Linux.
+
+| Repo | Scope | Installs via |
+|------|-------|-------------|
+| **nix-home** (you are here) | User environment (dotfiles, dev tools, LaunchAgents) | home-manager |
+| [nix-ai](https://github.com/JacobPEvans/nix-ai) | AI CLI ecosystem (Claude, Gemini, Copilot, MCP) | home-manager |
+| [nix-darwin](https://github.com/JacobPEvans/nix-darwin) | macOS system config (Dock, Finder, Homebrew, security) | nix-darwin |
 
 ## License
 

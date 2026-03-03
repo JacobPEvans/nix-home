@@ -1,11 +1,11 @@
 # Common Packages
 #
-# Universal packages that should be installed on ALL systems (macOS, Linux, etc.)
-# These are system-level tools, not user-specific.
+# Universal dev tools installed on ALL systems (macOS, Linux, etc.)
+# Canonical source of truth for user-level development packages.
 #
 # Usage:
-#   - Darwin: imported in darwin/common.nix → environment.systemPackages
-#   - Linux:  imported in linux/common.nix → home.packages (home-manager standalone)
+#   - nix-home: imported in home-manager/common.nix → home.packages
+#   - nix-darwin: consumed via nix-home (no local copy)
 #
 # NOTE: This file returns a function that takes pkgs and returns a list of packages.
 
@@ -29,6 +29,29 @@ with pkgs;
   # Fast all-in-one JavaScript runtime (provides bunx)
   # nodejs is available per-repo via devShells
   bun # Fast all-in-one JavaScript runtime (provides bunx)
+
+  # ==========================================================================
+  # Modern CLI Tools
+  # ==========================================================================
+  # Popular alternatives to traditional Unix tools. Enhance productivity
+  # for both humans and AI assistants (syntax highlighting, fuzzy finding).
+
+  bat # Better cat with syntax highlighting
+  delta # Better git diff viewer with syntax highlighting
+  eza # Modern ls replacement with git integration
+  fd # Faster, user-friendly find alternative
+  fzf # Fuzzy finder for interactive selection
+  gnugrep # GNU grep with zgrep for compressed files
+  gnutar # GNU tar as 'gtar' (Mac-safe tar without ._* files)
+  btop # Modern process monitor with graphs (replaces htop for daily use)
+  htop # Interactive process viewer (better top)
+  jq # JSON parsing for config files and API responses
+  ncdu # NCurses disk usage analyzer
+  ripgrep # Fast grep alternative (rg) - essential for AI agents
+  tldr # Simplified, community-driven man pages
+  tree # Directory tree visualization
+  watchexec # File watcher that re-executes commands on changes
+  yq # YAML parsing (like jq but for YAML/XML/TOML)
 
   # ==========================================================================
   # Universal Linters
@@ -99,8 +122,20 @@ with pkgs;
   # Available: python3 (3.13), python314, python312
   # For Python 3.9 (Splunk, EOL): Use `uv run --python 3.9` (on-demand download)
   # python310 available per-repo via devShells
-  python314 # Python 3.14: Bleeding edge features
-  python312 # Python 3.12: General development and testing
+  # Individual interpreters at lower meta.priority to avoid /bin/idle conflict
+  # with the python3.withPackages environment below and each other.
+  # Priority: python3.withPackages (5, default) > python312 (10) > python314 (15)
+  # Version-specific binaries (python3.12, python3.14) are always available.
+  (python312.overrideAttrs (old: {
+    meta = old.meta // {
+      priority = 10;
+    };
+  })) # Python 3.12: General development and testing
+  (python314.overrideAttrs (old: {
+    meta = old.meta // {
+      priority = 15;
+    };
+  })) # Python 3.14: Bleeding edge features
 
   # uv: For running EOL Python versions (3.9) not in nixpkgs
   # Usage: uv run --python 3.9 pytest tests/
