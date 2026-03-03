@@ -102,7 +102,7 @@ in
     enable = lib.mkEnableOption "automatic nix-darwin activation recovery after login";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (cfg.enable && pkgs.stdenv.isDarwin) {
     # Create a LaunchAgent that runs at login
     launchd.agents.nix-activation-recovery = {
       enable = true;
@@ -121,8 +121,8 @@ in
         ThrottleInterval = 5;
 
         # Log output
-        StandardOutPath = "/tmp/nix-activation-recovery-stdout.log";
-        StandardErrorPath = "/tmp/nix-activation-recovery-stderr.log";
+        StandardOutPath = "${homeDir}/.local/log/nix-activation-recovery-stdout.log";
+        StandardErrorPath = "${homeDir}/.local/log/nix-activation-recovery-stderr.log";
       };
     };
   };

@@ -3,7 +3,12 @@
 # Manages LaunchAgents for Raycast helper scripts.
 # Replaces manual plist files with declarative Nix management.
 # Script at ~/.config/raycast/scripts/refresh-repos.sh is managed by Raycast.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   homeDir = config.home.homeDirectory;
   scriptPath = "${homeDir}/.config/raycast/scripts/refresh-repos.sh";
@@ -16,7 +21,7 @@ in
     };
   };
 
-  config = lib.mkIf config.programs.raycast-scripts.refreshRepos.enable {
+  config = lib.mkIf (config.programs.raycast-scripts.refreshRepos.enable && pkgs.stdenv.isDarwin) {
     launchd.agents.refresh-smart-issue-repos = {
       enable = true;
       config = {

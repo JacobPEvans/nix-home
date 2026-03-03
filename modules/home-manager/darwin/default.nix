@@ -5,8 +5,8 @@
 #
 # These modules are safe cross-platform because:
 # - They define options with mkEnableOption (defaults to false)
-# - Config sections are gated with mkIf (only evaluated when enabled)
-# - No macOS-specific code runs unless the option is explicitly enabled
+# - Config sections are gated with mkIf + stdenv.isDarwin
+# - No macOS-specific code runs unless the option is explicitly enabled on Darwin
 
 {
   imports = [
