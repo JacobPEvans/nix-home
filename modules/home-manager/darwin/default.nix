@@ -1,12 +1,12 @@
 # macOS-Specific Home-Manager Modules
 #
 # User-level modules that use macOS-only APIs (LaunchAgents, osascript, etc.)
-# Conditionally imported via lib.optionals pkgs.stdenv.isDarwin in flake.nix.
+# Imported unconditionally in flake.nix (no platform guard).
 #
 # These modules are safe cross-platform because:
 # - They define options with mkEnableOption (defaults to false)
 # - Config sections are gated with mkIf (only evaluated when enabled)
-# - They are only imported on Darwin (via platform guard in flake.nix)
+# - No macOS-specific code runs unless the option is explicitly enabled
 
 {
   imports = [
