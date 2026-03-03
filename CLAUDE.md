@@ -16,9 +16,37 @@ nix flake check    # Runs formatting, statix, deadnix, shellcheck checks
 nix fmt            # Fix formatting
 ```
 
+## Separation Guidelines
+
+### What belongs here (nix-home)
+
+- User shell config (zsh, git, direnv)
+- Editor settings (VS Code, Vim config)
+- CLI dev tools (bat, ripgrep, jq, fzf, etc.)
+- Linters and formatters (shellcheck, statix, deadnix)
+- Programming languages (Python, Bun)
+- Security tools (password manager CLIs, aws-vault)
+- macOS user-level LaunchAgents (under `modules/home-manager/darwin/`)
+- Dotfiles and config files (`home.file`)
+- Per-repo devShell templates
+
+### What does NOT belong here
+
+- macOS system settings (Dock, Finder, keyboard) -> nix-darwin
+- Homebrew casks and brews -> nix-darwin
+- System-level LaunchDaemons -> nix-darwin
+- AI tools (Claude, Gemini, Copilot, MCP) -> nix-ai
+- GUI apps managed at system level -> nix-darwin
+
+### Package placement
+
+- **`home.packages`**: User dev tools, linters, CLIs, language runtimes
+- **`environment.systemPackages`** (nix-darwin): Core bootstrapping (git, vim), macOS-only system tools, GUI apps, audio libs
+- **AI packages** (nix-ai): Claude Code, Gemini, Copilot, MCP servers
+
 ## Architecture
 
-This repo exports home-manager modules consumed by nix-config (nix-darwin):
+This repo exports home-manager modules consumed by nix-darwin:
 
 - `homeManagerModules.default` -- Full cross-platform module (git, zsh, VS Code, tmux, monitoring)
 - `overlays.default` -- Python package overrides
@@ -47,7 +75,7 @@ nix flake init -t github:the-nix-way/dev-templates#go
 
 ## Testing Locally
 
-From nix-config (nix-darwin), test changes with:
+From nix-darwin, test changes with:
 
 ```bash
 sudo darwin-rebuild switch --flake . --override-input nix-home /Users/you/git/nix-home/main

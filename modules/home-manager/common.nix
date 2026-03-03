@@ -28,6 +28,9 @@
 }:
 
 let
+  # Universal packages (pre-commit, linters, dev tools) shared across all systems
+  commonPackages = import ../common/packages.nix { inherit pkgs; };
+
   # Git aliases
   gitAliases = import ./git/aliases.nix;
 
@@ -63,6 +66,9 @@ in
 {
   home = {
     stateVersion = userConfig.nix.homeManagerStateVersion;
+
+    # User dev tools (pre-commit, linters, Python, AWS, etc.)
+    packages = commonPackages;
 
     file = npmFiles // awsFiles // linterFiles // gitHooks // gitMergeDrivers;
 

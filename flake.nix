@@ -29,11 +29,14 @@
     in
     {
       # Main home-manager module (cross-platform non-AI config)
+      # Darwin modules imported unconditionally - they use mkEnableOption + mkIf,
+      # so launchd config is only evaluated when explicitly enabled on macOS.
       homeManagerModules.default = {
         imports = [
           ./modules/home-manager/common.nix
           ./modules/home-manager/tmux.nix
           ./modules/monitoring
+          ./modules/home-manager/darwin
         ];
       };
 
