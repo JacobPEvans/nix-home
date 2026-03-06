@@ -23,6 +23,11 @@ rules:
       - post-merge-tests.yml
       - release-please.yml
       - trigger-nix-update.yml
+      - best-practices.yml
+      - code-simplifier.yml
+      - issue-hygiene.yml
+      - issue-sweeper.yml
+      - next-steps.yml
 
   # IGNORED: workflow_run triggers are used intentionally for post-CI workflows
   # These workflows only read artifacts and open issues/PRs — they do not execute
@@ -54,3 +59,8 @@ rules:
       - issue-auto-resolve.yml
       - post-merge-docs-review.yml
       - post-merge-tests.yml
+      - best-practices.yml
+      - code-simplifier.yml
+      - issue-hygiene.yml
+      - issue-sweeper.yml
+      - next-steps.yml
