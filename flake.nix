@@ -74,6 +74,17 @@
         }
       );
 
+      # Expose custom packages for nix-update automation
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          git-flow-next = pkgs.callPackage ./modules/common/git-flow-next.nix { };
+        }
+      );
+
       # Formatter
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
 
