@@ -18,6 +18,10 @@ on:
     - cron: "0 8 * * 1"  # Weekly Monday 8am UTC
   workflow_dispatch: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   update-git-flow-next:
     name: Update git-flow-next
