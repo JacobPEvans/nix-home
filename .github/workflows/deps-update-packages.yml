@@ -6,7 +6,7 @@
 #
 # Updates:
 # - git-flow-next: Go module (via nix-update, handles version + vendorHash)
-# - grip: PyPI Python package (via update-grip.sh)
+# - grip: PyPI Python package (via nix-update)
 #
 # Triggers:
 # - Weekly Monday at 8am UTC (schedule)
@@ -96,7 +96,7 @@ jobs:
         uses: DeterminateSystems/determinate-nix-action@v3
 
       - name: Update grip
-        run: ./scripts/update-grip.sh --apply
+        run: nix run nixpkgs#nix-update -- --flake grip
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
@@ -108,13 +108,13 @@ jobs:
           commit-message: |
             chore(deps): update grip to latest PyPI version
 
-            Automated update via scripts/update-grip.sh
+            Automated update via nix-update.
           title: "chore(deps): update grip"
           body: |
-            Automated grip PyPI package version update.
+            Automated grip version update via nix-update.
 
-            Queries PyPI JSON API for latest version, computes hash via
-            `nix store prefetch-file`, and updates `overlays/python-packages.nix`.
+            nix-update automatically fetches the latest version from PyPI
+            and updates the version and hash in `packages/grip.nix`.
 
             ---
             *Created by JacobPEvans-github-actions*
