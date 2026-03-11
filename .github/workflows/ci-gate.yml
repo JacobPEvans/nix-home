@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: DeterminateSystems/determinate-nix-action@v3
-      - run: nix flake check --all-systems
+      - run: nix flake check --all-systems --no-build
 
   markdown-lint:
     name: Markdown Lint

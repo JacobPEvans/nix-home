@@ -1,0 +1,67 @@
+# Automated custom package updates with verified commits
+#
+# Uses JacobPEvans-github-actions App for:
+# - Signed & verified commits via GitHub's REST API
+# - Triggering downstream workflows (CI Gate, Review)
+#
+# Updates:
+# - git-flow-next: Go module (via nix-update, handles version + vendorHash)
+# - grip: PyPI Python package (via nix-update)
+#
+# Triggers:
+# - Weekly Monday at 8am UTC (schedule)
+# - Manual (workflow_dispatch)
+name: Update Custom Packages
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"  # Weekly Monday 8am UTC
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  update-packages:
+    name: Update custom packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
+
+      - name: Update all custom packages
+        run: |
+          nix run nixpkgs#nix-update -- --flake git-flow-next || echo "git-flow-next update failed, continuing"
+          nix run nixpkgs#nix-update -- --flake grip || echo "grip update failed, continuing"
+
+      - name: Validate flake after updates
+        run: nix flake check --show-trace
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          sign-commits: true
+          branch: chore/update-custom-packages
+          delete-branch: true
+          commit-message: "chore(deps): update custom packages"
+          title: "chore(deps): update custom packages"
+          body: |
+            Automated update via nix-update.
+          labels: dependencies
