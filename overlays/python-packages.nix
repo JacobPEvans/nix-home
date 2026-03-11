@@ -5,8 +5,12 @@
 
 final: prev: {
   python3 = prev.python3.override {
-    packageOverrides = _python-final: _python-prev: {
-      grip = prev.callPackage ../packages/grip.nix { };
+    packageOverrides = _python-final: python-prev: {
+      grip = prev.callPackage ../packages/grip.nix {
+        # Pass the unoverridden Python packages so grip.nix can inherit deps
+        # from nixpkgs grip without creating a self-referential cycle.
+        python3Packages = python-prev;
+      };
     };
   };
 
