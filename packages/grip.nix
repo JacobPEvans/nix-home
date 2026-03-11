@@ -19,7 +19,7 @@ python3Packages.buildPythonPackage rec {
     werkzeug
   ];
 
-  nativeBuildInputs = with python3Packages; [ setuptools ];
+  nativeBuildInputs = [ python3Packages.setuptools ];
 
   doCheck = false;
 }

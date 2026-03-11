@@ -6,7 +6,7 @@
 final: prev: {
   python3 = prev.python3.override {
     packageOverrides = python-final: _python-prev: {
-      grip = python-final.callPackage ../packages/grip.nix { };
+      grip = python-final.callPackage ../packages/grip.nix { python3Packages = python-final; };
     };
   };
 
