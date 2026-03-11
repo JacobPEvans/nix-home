@@ -23,6 +23,10 @@ on:
       - upstream-repo-updated
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   update:
     name: Update flake inputs
@@ -74,6 +78,9 @@ jobs:
         run: |
           # shellcheck disable=SC2086
           nix flake update $FLAKE_INPUTS
+
+      - name: Validate flake after update
+        run: nix flake check --show-trace
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
