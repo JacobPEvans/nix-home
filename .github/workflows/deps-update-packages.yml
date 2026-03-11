@@ -47,8 +47,8 @@ jobs:
 
       - name: Update all custom packages
         run: |
-          nix run nixpkgs#nix-update -- --flake git-flow-next
-          nix run nixpkgs#nix-update -- --flake grip
+          nix run nixpkgs#nix-update -- --flake git-flow-next || echo "git-flow-next update failed, continuing"
+          nix run nixpkgs#nix-update -- --flake grip || echo "grip update failed, continuing"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
