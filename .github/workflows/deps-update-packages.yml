@@ -50,6 +50,9 @@ jobs:
           nix run nixpkgs#nix-update -- --flake git-flow-next || echo "git-flow-next update failed, continuing"
           nix run nixpkgs#nix-update -- --flake grip || echo "grip update failed, continuing"
 
+      - name: Validate flake after updates
+        run: nix flake check --show-trace
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
