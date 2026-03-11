@@ -46,10 +46,11 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/determinate-nix-action@v3
 
-      - name: Update all custom packages
-        run: |
-          nix run nixpkgs#nix-update -- --flake git-flow-next
-          nix run nixpkgs#nix-update -- --flake grip
+      - name: Update git-flow-next
+        run: nix run nixpkgs#nix-update -- --flake git-flow-next
+
+      - name: Update grip
+        run: nix run nixpkgs#nix-update -- --flake grip
 
       - name: Validate flake after updates
         run: nix flake check --show-trace
