@@ -10,8 +10,16 @@ python3Packages.buildPythonPackage rec {
     hash = "sha256-PPbc4KoG7dZjF2kUBpr4PxncuQ86nEAScaz6cYcvjOM=";
   };
 
-  # Inherit build inputs from nixpkgs grip to avoid duplicating the dependency list
-  inherit (python3Packages.grip) dependencies nativeBuildInputs;
+  dependencies = with python3Packages; [
+    docopt
+    flask
+    markdown
+    path-and-address
+    requests
+    werkzeug
+  ];
+
+  nativeBuildInputs = with python3Packages; [ setuptools ];
 
   doCheck = false;
 }
