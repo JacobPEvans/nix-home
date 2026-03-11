@@ -26,6 +26,7 @@ jobs:
   update-packages:
     name: Update custom packages
     runs-on: ubuntu-latest
+    environment: automation
     permissions:
       contents: write
       pull-requests: write
