@@ -48,8 +48,8 @@ jobs:
 
       - name: Update all custom packages
         run: |
-          nix run nixpkgs#nix-update -- --flake git-flow-next || echo "git-flow-next update failed, continuing"
-          nix run nixpkgs#nix-update -- --flake grip || echo "grip update failed, continuing"
+          nix run nixpkgs#nix-update -- --flake git-flow-next
+          nix run nixpkgs#nix-update -- --flake grip
 
       - name: Validate flake after updates
         run: nix flake check --show-trace
