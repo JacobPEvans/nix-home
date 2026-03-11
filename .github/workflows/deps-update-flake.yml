@@ -2,7 +2,7 @@
 #
 # Uses JacobPEvans-github-actions App for:
 # - Signed & verified commits via GitHub's REST API
-# - Enabling auto-merge for approved updates
+# - PRs created as the app user (enabling merge via PR workflow)
 #
 # Triggers:
 # - Daily at noon UTC (schedule)
