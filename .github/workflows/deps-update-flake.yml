@@ -2,7 +2,7 @@
 #
 # Uses JacobPEvans-github-actions App for:
 # - Signed & verified commits via GitHub's REST API
-# - PRs created as the app user (enabling merge via PR workflow)
+# - PRs created as the app user so pull_request workflows/checks run
 #
 # Triggers:
 # - Daily at noon UTC (schedule)
