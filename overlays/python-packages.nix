@@ -11,4 +11,12 @@ final: prev: {
   };
 
   python3Packages = final.python3.pkgs;
+
+  python314 = prev.python314.override {
+    packageOverrides = python-final: _python-prev: {
+      grip = python-final.callPackage ../packages/grip.nix { };
+    };
+  };
+
+  python314Packages = final.python314.pkgs;
 }

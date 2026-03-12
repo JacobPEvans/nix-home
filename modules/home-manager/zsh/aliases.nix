@@ -93,4 +93,21 @@
   ta = "tmux attach -t"; # Attach to named session
   tl = "tmux list-sessions"; # List active sessions
   tn = "tmux new -s"; # Create named session
+
+  # ===========================================================================
+  # MLX (Apple Silicon ML Inference Server)
+  # ===========================================================================
+  # On-demand MLX inference — no LaunchAgent, started manually when needed.
+  # Port 11435 avoids conflicts: Ollama (:11434), Open WebUI (:8080).
+  # mlx-server dir lives at ~/git/nix-ai/main/mlx-server/.
+  #
+  # First-time setup: run `mlx-env` once to create the venv and install packages.
+  # Subsequent use: mlx-coder / mlx-rag source the existing venv directly.
+  #
+  # mlx-update: upgrades all MLX packages in-place (update uv.lock, then sync venv).
+  #
+  mlx-env = "cd ~/git/nix-ai/main/mlx-server && nix develop";
+  mlx-coder = "cd ~/git/nix-ai/main/mlx-server && source .venv/bin/activate && mlx_lm.server --model mlx-community/Qwen2.5-Coder-32B-Instruct-4bit --port 11435 --host 127.0.0.1";
+  mlx-rag = "cd ~/git/nix-ai/main/mlx-server && source .venv/bin/activate && mlx_lm.server --model mlx-community/c4ai-command-r-plus-08-2024-4bit --port 11435 --host 127.0.0.1";
+  mlx-update = "cd ~/git/nix-ai/main/mlx-server && nix develop --command bash -c 'uv lock --upgrade && uv sync'";
 }

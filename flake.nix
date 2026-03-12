@@ -82,7 +82,7 @@
         in
         {
           git-flow-next = pkgs.callPackage ./modules/common/git-flow-next.nix { };
-          grip = pkgs.callPackage ./packages/grip.nix { };
+          grip = pkgs.python3.pkgs.callPackage ./packages/grip.nix { };
         }
       );
 
