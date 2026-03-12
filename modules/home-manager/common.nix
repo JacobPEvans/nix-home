@@ -74,6 +74,7 @@ in
 
     sessionVariables = {
       EDITOR = "vim";
+      HF_HOME = "/Volumes/HuggingFace";
       SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     };
 
