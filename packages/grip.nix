@@ -5,8 +5,10 @@
   flask,
   markdown,
   path-and-address,
+  pygments,
   requests,
   setuptools,
+  tabulate,
   werkzeug,
 }:
 
@@ -25,7 +27,9 @@ buildPythonPackage rec {
     flask
     markdown
     path-and-address
+    pygments
     requests
+    tabulate
     werkzeug
   ];
 
