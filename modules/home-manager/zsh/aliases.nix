@@ -104,7 +104,7 @@
   # First-time setup: run `mlx-env` once to create the venv and install packages.
   # Subsequent use: mlx-coder / mlx-rag source the existing venv directly.
   #
-  # mlx-update: upgrades all MLX packages and commits updated uv.lock.
+  # mlx-update: upgrades all MLX packages in-place (update uv.lock, then sync venv).
   #
   mlx-env = "cd ~/git/nix-ai/main/mlx-server && nix develop";
   mlx-coder = "cd ~/git/nix-ai/main/mlx-server && source .venv/bin/activate && mlx_lm.server --model mlx-community/Qwen2.5-Coder-32B-Instruct-4bit --port 11435 --host 127.0.0.1";
