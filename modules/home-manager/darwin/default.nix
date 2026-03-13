@@ -12,5 +12,6 @@
   imports = [
     ./raycast-scripts.nix
     ./nix-activation-recovery.nix
+    ./log-cleanup.nix
   ];
 }
