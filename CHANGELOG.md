@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/JacobPEvans/nix-home/compare/v1.1.0...v1.2.0) (2026-03-14)
+
+
+### Features
+
+* replace background processes with native source configs ([#66](https://github.com/JacobPEvans/nix-home/issues/66)) ([af489d1](https://github.com/JacobPEvans/nix-home/commit/af489d11e5e61973e1b1933cfb479da30bb59129))
+
 ## [1.1.0](https://github.com/JacobPEvans/nix-home/compare/v1.0.0...v1.1.0) (2026-03-13)
 
 
