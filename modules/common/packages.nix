@@ -119,23 +119,21 @@ with pkgs;
   pyright # Static type checker for Python
 
   # Python interpreters: Multiple versions via Nix (no pip - packages via Nix only)
-  # Available: python3 (3.13), python314, python312
+  # Available: python3 (3.14 when nix-home overlay is applied), python312
+  # NOTE: python3 resolves to 3.14 only when the caller includes
+  # nix-home's overlays.default in nixpkgs.overlays. Without the overlay,
+  # python3 tracks the nixpkgs default.
   # For Python 3.9 (Splunk, EOL): Use `uv run --python 3.9` (on-demand download)
   # python310 available per-repo via devShells
   # Individual interpreters at lower meta.priority to avoid /bin/idle conflict
   # with the python3.withPackages environment below and each other.
-  # Priority: python3.withPackages (5, default) > python312 (10) > python314 (15)
+  # Priority: python3.withPackages (5, default) > python312 (10)
   # Version-specific binaries (python3.12, python3.14) are always available.
   (python312.overrideAttrs (old: {
     meta = old.meta // {
       priority = 10;
     };
   })) # Python 3.12: General development and testing
-  (python314.overrideAttrs (old: {
-    meta = old.meta // {
-      priority = 15;
-    };
-  })) # Python 3.14: Bleeding edge features
 
   # uv: For running EOL Python versions (3.9) not in nixpkgs
   # Usage: uv run --python 3.9 pytest tests/

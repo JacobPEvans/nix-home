@@ -4,7 +4,9 @@
 # Package definitions live in packages/ for nix-update compatibility.
 
 final: prev: {
-  python3 = prev.python3.override {
+  # Default python3 → Python 3.14
+  # All python3.withPackages / python3Packages usage gets 3.14 automatically.
+  python3 = prev.python314.override {
     packageOverrides = python-final: _python-prev: {
       grip = python-final.callPackage ../packages/grip.nix { };
     };
@@ -12,11 +14,8 @@ final: prev: {
 
   python3Packages = final.python3.pkgs;
 
-  python314 = prev.python314.override {
-    packageOverrides = python-final: _python-prev: {
-      grip = python-final.callPackage ../packages/grip.nix { };
-    };
-  };
-
-  python314Packages = final.python314.pkgs;
+  # Aliases so overlay consumers that reference python314 directly still get
+  # the grip override (python3 IS python314 after this overlay).
+  python314 = final.python3;
+  python314Packages = final.python3.pkgs;
 }
