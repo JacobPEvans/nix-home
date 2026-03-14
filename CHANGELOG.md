@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/JacobPEvans/nix-home/compare/v1.2.0...v1.3.0) (2026-03-14)
+
+
+### Features
+
+* make python3 resolve to Python 3.14 via overlay ([#68](https://github.com/JacobPEvans/nix-home/issues/68)) ([47c8e9a](https://github.com/JacobPEvans/nix-home/commit/47c8e9afdb9f613c110c86b72f40798b25056128))
+
 ## [1.2.0](https://github.com/JacobPEvans/nix-home/compare/v1.1.0...v1.2.0) (2026-03-14)
 
 
