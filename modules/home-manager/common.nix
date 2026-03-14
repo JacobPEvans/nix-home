@@ -75,10 +75,10 @@ in
     sessionVariables = {
       EDITOR = "vim";
       SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-      SCCACHE_CACHE_SIZE = "5G";
     }
     // lib.optionalAttrs pkgs.stdenv.isDarwin {
       HF_HOME = "/Volumes/HuggingFace";
+      SCCACHE_CACHE_SIZE = "5G";
     };
 
     inherit (vscodeWritableConfig) activation;
