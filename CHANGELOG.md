@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/JacobPEvans/nix-home/compare/v1.3.0...v1.4.0) (2026-03-14)
+
+
+### Features
+
+* migrate flake.lock updates to Renovate nix manager ([#73](https://github.com/JacobPEvans/nix-home/issues/73)) ([1e0430f](https://github.com/JacobPEvans/nix-home/commit/1e0430f6aed962908419ac6b76d913accca2cbe9))
+
+
+### Bug Fixes
+
+* **ci:** upgrade ci-gate.yml to Merge Gatekeeper pattern ([#70](https://github.com/JacobPEvans/nix-home/issues/70)) ([4360274](https://github.com/JacobPEvans/nix-home/commit/4360274ffe986d82a74afeebc75a75abff0f8697))
+
 ## [1.3.0](https://github.com/JacobPEvans/nix-home/compare/v1.2.0...v1.3.0) (2026-03-14)
 
 
