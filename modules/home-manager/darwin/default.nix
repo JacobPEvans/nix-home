@@ -10,7 +10,6 @@
 
 {
   imports = [
-    ./raycast-scripts.nix
     ./nix-activation-recovery.nix
   ];
 }

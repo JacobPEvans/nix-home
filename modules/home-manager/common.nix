@@ -78,6 +78,7 @@ in
     }
     // lib.optionalAttrs pkgs.stdenv.isDarwin {
       HF_HOME = "/Volumes/HuggingFace";
+      SCCACHE_CACHE_SIZE = "5G";
     };
 
     inherit (vscodeWritableConfig) activation;
