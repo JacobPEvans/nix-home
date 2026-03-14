@@ -3,5 +3,8 @@
   "extends": [
     "config:recommended",
     "local>JacobPEvans/.github:renovate-presets"
-  ]
+  ],
+  "nix": {
+    "enabled": true
+  }
 }
