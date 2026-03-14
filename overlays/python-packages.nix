@@ -13,4 +13,9 @@ final: prev: {
   };
 
   python3Packages = final.python3.pkgs;
+
+  # Aliases so overlay consumers that reference python314 directly still get
+  # the grip override (python3 IS python314 after this overlay).
+  python314 = final.python3;
+  python314Packages = final.python3.pkgs;
 }
