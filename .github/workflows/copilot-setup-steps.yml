@@ -2,6 +2,9 @@ name: Copilot Setup Steps
 
 on: push
 
+permissions:
+  contents: read
+
 jobs:
   copilot-setup-steps:
     uses: JacobPEvans/.github/.github/workflows/_copilot-setup-steps.yml@main
