@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/JacobPEvans/nix-home/compare/v1.4.0...v1.5.0) (2026-03-15)
+
+
+### Bug Fixes
+
+* **ci:** migrate copilot-setup-steps to determinate-nix-action@v3 ([#75](https://github.com/JacobPEvans/nix-home/issues/75)) ([18696ca](https://github.com/JacobPEvans/nix-home/commit/18696cae0e05d736ee82514b488602a6f7bfb2df))
+
 ## [1.4.0](https://github.com/JacobPEvans/nix-home/compare/v1.3.0...v1.4.0) (2026-03-14)
 
 
