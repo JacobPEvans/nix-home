@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/JacobPEvans/nix-home/compare/v1.5.0...v1.6.0) (2026-03-15)
+
+
+### Bug Fixes
+
+* **ci:** add pull-requests:write for release-please auto-approve ([#79](https://github.com/JacobPEvans/nix-home/issues/79)) ([f08dd3d](https://github.com/JacobPEvans/nix-home/commit/f08dd3dad84d4458a1742f19fdb3bbe11bfabd21))
+
 ## [1.5.0](https://github.com/JacobPEvans/nix-home/compare/v1.4.0...v1.5.0) (2026-03-15)
 
 
