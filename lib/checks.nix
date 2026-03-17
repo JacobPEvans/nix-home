@@ -6,6 +6,7 @@
   src,
   home-manager,
   homeModule,
+  overlay,
 }:
 {
   # Check Nix formatting with nixfmt-rfc-style
@@ -76,6 +77,7 @@
       pkgsWithUnfree = import nixpkgs {
         inherit (pkgs) system;
         config.allowUnfree = true;
+        overlays = [ overlay ];
       };
       hmConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsWithUnfree;

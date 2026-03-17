@@ -119,15 +119,15 @@ with pkgs;
   pyright # Static type checker for Python
 
   # Python interpreters: Multiple versions via Nix (no pip - packages via Nix only)
-  # Available: python3 (3.14 when nix-home overlay is applied), python312
-  # NOTE: python3 resolves to 3.14 only when the caller includes
-  # nix-home's overlays.default in nixpkgs.overlays. Without the overlay,
-  # python3 tracks the nixpkgs default.
+  # Available: python314 (with grip via overlay), python312
+  # NOTE: python3 cannot be overridden at the overlay level on Darwin because
+  # it is used by stdenv bootstrapping (AvailabilityVersions). Reference
+  # python314 explicitly instead.
   # For Python 3.9 (Splunk, EOL): Use `uv run --python 3.9` (on-demand download)
   # python310 available per-repo via devShells
   # Individual interpreters at lower meta.priority to avoid /bin/idle conflict
-  # with the python3.withPackages environment below and each other.
-  # Priority: python3.withPackages (5, default) > python312 (10)
+  # with the python314.withPackages environment below and each other.
+  # Priority: python314.withPackages (5, default) > python312 (10)
   # Version-specific binaries (python3.12, python3.14) are always available.
   (python312.overrideAttrs (old: {
     meta = old.meta // {
@@ -144,8 +144,8 @@ with pkgs;
   # ==========================================================================
   # Create a unified Python environment with all required packages.
   # This ensures all modules can be imported in the same interpreter.
-  # Using python3.withPackages instead of individual python3Packages.*
-  (python3.withPackages (ps: [
+  # Using python314.withPackages (overlay provides grip package).
+  (python314.withPackages (ps: [
     ps.cryptography # Cryptographic recipes and primitives
     ps.grip # Preview GitHub Markdown files locally
     # DISABLED: langchain-ollama ultimately depends on python3.13-twisted,

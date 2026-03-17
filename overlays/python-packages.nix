@@ -2,20 +2,23 @@
 #
 # Overrides for Python packages that are outdated in nixpkgs.
 # Package definitions live in packages/ for nix-update compatibility.
+#
+# NOTE: python3 cannot be overridden at the overlay level on Darwin because
+# it is used by stdenv bootstrapping (AvailabilityVersions). Overriding it
+# triggers infinite recursion in the stdenv boot chain. Instead, we only
+# override python314/python314Packages and reference python314 explicitly.
 
-final: prev: {
-  # Default python3 → Python 3.14
-  # All python3.withPackages / python3Packages usage gets 3.14 automatically.
-  python3 = prev.python314.override {
-    packageOverrides = python-final: _python-prev: {
-      grip = python-final.callPackage ../packages/grip.nix { };
-    };
+final: prev:
+let
+  gripOverride = python-final: _python-prev: {
+    grip = python-final.callPackage ../packages/grip.nix { };
   };
-
-  python3Packages = final.python3.pkgs;
-
-  # Aliases so overlay consumers that reference python314 directly still get
-  # the grip override (python3 IS python314 after this overlay).
-  python314 = final.python3;
-  python314Packages = final.python3.pkgs;
+in
+{
+  # Override python314 with the grip package.
+  # Consumers should reference python314 explicitly (not python3).
+  python314 = prev.python314.override {
+    packageOverrides = gripOverride;
+  };
+  python314Packages = final.python314.pkgs;
 }
