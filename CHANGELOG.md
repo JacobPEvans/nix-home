@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/JacobPEvans/nix-home/compare/v1.6.0...v1.7.0) (2026-03-17)
+
+
+### Bug Fixes
+
+* **overlay:** resolve python3 infinite recursion on Darwin ([#81](https://github.com/JacobPEvans/nix-home/issues/81)) ([6085101](https://github.com/JacobPEvans/nix-home/commit/60851010df5f57b1317b1aa21bbcc7e9d2bfcd4f))
+
 ## [1.6.0](https://github.com/JacobPEvans/nix-home/compare/v1.5.0...v1.6.0) (2026-03-15)
 
 
