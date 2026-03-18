@@ -82,7 +82,7 @@ AI development workflows. It includes OpenTelemetry Collector for traces and log
 and Cribl Edge for log shipping. See [`modules/monitoring/README.md`](modules/monitoring/README.md)
 for architecture details, components, and quick start instructions.
 
-## Part of a trio
+## Part of a Quartet
 
 **nix-home** manages your user-level development environment using home-manager modules.
 It provides shell config, editor settings, CLI dev tools, linters, and dotfiles.
@@ -92,6 +92,7 @@ Consumed as a flake input by nix-darwin (macOS) and usable standalone on Linux.
 |------|-------|-------------|
 | **nix-home** (you are here) | User environment (dotfiles, dev tools, LaunchAgents) | home-manager |
 | [nix-ai](https://github.com/JacobPEvans/nix-ai) | AI CLI ecosystem (Claude, Gemini, Copilot, MCP) | home-manager |
+| [nix-devenv](https://github.com/JacobPEvans/nix-devenv) | Reusable dev shells (Terraform, Ansible, K8s, AI/ML) | nix develop / flake init |
 | [nix-darwin](https://github.com/JacobPEvans/nix-darwin) | macOS system config (Dock, Finder, Homebrew, security) | nix-darwin |
 
 ## License
