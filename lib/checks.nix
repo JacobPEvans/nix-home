@@ -75,7 +75,7 @@
       # the module enables vscode (unfree). This is test-only; real deployments
       # set allowUnfree in their nixpkgs config.
       pkgsWithUnfree = import nixpkgs {
-        inherit (pkgs) system;
+        inherit (pkgs.stdenv.hostPlatform) system;
         config.allowUnfree = true;
         overlays = [ overlay ];
       };
