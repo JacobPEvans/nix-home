@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/JacobPEvans/nix-home/compare/v1.7.0...v1.8.0) (2026-03-18)
+
+
+### Bug Fixes
+
+* **overlay:** source python314 from nixpkgs-unstable for 3.14 compat ([#83](https://github.com/JacobPEvans/nix-home/issues/83)) ([701750b](https://github.com/JacobPEvans/nix-home/commit/701750bef0cd286765e1ba7c47b1ff69c2788b64))
+
 ## [1.7.0](https://github.com/JacobPEvans/nix-home/compare/v1.6.0...v1.7.0) (2026-03-17)
 
 
