@@ -28,7 +28,7 @@ nix fmt            # Fix formatting
 - Security tools (password manager CLIs, aws-vault)
 - macOS user-level LaunchAgents (under `modules/home-manager/darwin/`)
 - Dotfiles and config files (`home.file`)
-- Per-repo devShell templates
+- Per-repo devShell scaffolding (via nix-devenv)
 
 ### What does NOT belong here
 
@@ -52,13 +52,15 @@ This repo exports home-manager modules consumed by nix-darwin:
 - `overlays.default` -- Python package overrides
 - `checks` -- Quality checks on 4 systems
 - `devShells.default` -- Nix development tools
-- `templates` -- Scaffolding templates for per-repo devShells (ansible, terraform, kubernetes, containers, splunk-dev)
 
 Per-repo devShells replace the old centralized `shells/` directory. Each repo owns its own `flake.nix`:
 
 ```bash
-# Scaffold a new repo's dev environment from a template
-nix flake init -t github:JacobPEvans/nix-home#ansible
+# Scaffold a new repo's dev environment from a nix-devenv template
+nix flake init -t github:JacobPEvans/nix-devenv#mkshell
+
+# Or use a pre-built shell directly
+nix develop github:JacobPEvans/nix-devenv?dir=shells/ansible
 
 # Or use community templates for standard languages
 nix flake init -t github:the-nix-way/dev-templates#go
@@ -70,7 +72,6 @@ nix flake init -t github:the-nix-way/dev-templates#go
 - `modules/home-manager/tmux.nix` -- Tmux configuration
 - `modules/monitoring/` -- Kubernetes monitoring stack
 - `overlays/python-packages.nix` -- Custom Python package overlays
-- `templates/` -- Per-repo devShell templates (ansible, terraform, kubernetes, containers, splunk-dev)
 - `lib/checks.nix` -- Quality check definitions
 
 ## Testing Locally
