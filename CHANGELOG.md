@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/JacobPEvans/nix-home/compare/v1.8.0...v1.9.0) (2026-03-18)
+
+
+### Bug Fixes
+
+* **ci:** resolve system deprecation and grip build warnings ([#85](https://github.com/JacobPEvans/nix-home/issues/85)) ([3bd66e3](https://github.com/JacobPEvans/nix-home/commit/3bd66e35fb5c4224bcd1c3a38fb108f2c290d306))
+
 ## [1.8.0](https://github.com/JacobPEvans/nix-home/compare/v1.7.0...v1.8.0) (2026-03-18)
 
 
