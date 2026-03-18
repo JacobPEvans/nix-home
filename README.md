@@ -21,13 +21,13 @@ Switch machines? One command. Everything's back.
 | **Linters** | markdownlint, pre-commit configurations |
 | **npm / AWS** | Configuration file management |
 
-## Prerequisites
+## Installation
+
+Prerequisites:
 
 - [Nix](https://nixos.org/) (Determinate Nix installer recommended)
 - [home-manager](https://github.com/nix-community/home-manager)
 - Compatible platforms: `aarch64-darwin`, `x86_64-darwin`, `x86_64-linux`, `aarch64-linux`
-
-## Quick start
 
 Add to your Nix flake:
 
@@ -47,7 +47,9 @@ Then in your home-manager config:
 sharedModules = [ nix-home.homeManagerModules.default ];
 ```
 
-## Flake outputs
+## Usage
+
+### Flake outputs
 
 | Output | Description |
 |--------|-------------|
@@ -56,38 +58,21 @@ sharedModules = [ nix-home.homeManagerModules.default ];
 | `checks` | Formatting, linting, dead code, module eval (4 systems) |
 | `devShells.default` | Nix development tools |
 | `formatter` | nixfmt-tree |
-| `templates` | Per-repo devShell scaffolding (5 templates) |
 
-## Templates
+## Dev shells
 
-Each project owns its own devShell. Use the `templates` flake output to scaffold a
-`flake.nix` + `.envrc` into any repo — then activate with direnv.
-
-| Template | Description |
-|----------|-------------|
-| `ansible` | Ansible configuration management dev environment |
-| `terraform` | Terraform/Terragrunt infrastructure dev environment |
-| `kubernetes` | Kubernetes development and validation environment |
-| `containers` | Container development, building, and registry environment |
-| `splunk-dev` | Splunk development environment (Python 3.9 via uv) |
+Per-repo dev shells have moved to [nix-devenv](https://github.com/JacobPEvans/nix-devenv).
+Scaffold a new repo or use a pre-built shell from there:
 
 ```sh
-# Scaffold a new repo's dev environment
-nix flake init -t github:JacobPEvans/nix-home#ansible
-nix flake init -t github:JacobPEvans/nix-home#terraform
-nix flake init -t github:JacobPEvans/nix-home#kubernetes
-nix flake init -t github:JacobPEvans/nix-home#containers
-nix flake init -t github:JacobPEvans/nix-home#splunk-dev
+# Scaffold a new repo's dev environment from a nix-devenv template
+nix flake init -t github:JacobPEvans/nix-devenv#mkshell
 
-# Then allow direnv (one-time per worktree)
-direnv allow
-```
+# Or use a pre-built shell directly
+nix develop github:JacobPEvans/nix-devenv?dir=shells/ansible
 
-For standard languages, use community templates:
-
-```sh
+# Or use community templates for standard languages
 nix flake init -t github:the-nix-way/dev-templates#go
-nix flake init -t github:the-nix-way/dev-templates#node
 ```
 
 ### Monitoring
