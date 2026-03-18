@@ -35,5 +35,9 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [ setuptools ];
 
+  postPatch = ''
+    mkdir -p grip/static grip/templates
+  '';
+
   doCheck = false;
 }
