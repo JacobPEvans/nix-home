@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/JacobPEvans/nix-home/compare/v1.9.0...v1.10.0) (2026-03-18)
+
+
+### Features
+
+* **aws:** add per-project assume-role profiles for Terraform ([#87](https://github.com/JacobPEvans/nix-home/issues/87)) ([5013ccf](https://github.com/JacobPEvans/nix-home/commit/5013ccf1ee734d4c90e50a390f9a4b5fba450d20))
+
 ## [1.9.0](https://github.com/JacobPEvans/nix-home/compare/v1.8.0...v1.9.0) (2026-03-18)
 
 
