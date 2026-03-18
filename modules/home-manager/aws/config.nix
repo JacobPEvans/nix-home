@@ -45,7 +45,11 @@
 #   mfa_serial       - MFA device ARN (required if role needs MFA)
 #   external_id      - External ID for cross-account roles
 
-{ config, ... }:
+{
+  config,
+  awsAccountId,
+  ...
+}:
 
 let
   # Default values for all profiles (change here to update all)
@@ -68,7 +72,7 @@ let
     }
     {
       name = "terraform";
-      comment = "Terraform automation";
+      comment = "Terraform base identity - only sts:AssumeRole, no resource permissions";
     }
     {
       name = "cribl";
@@ -79,22 +83,53 @@ let
       comment = "Splunk environment";
     }
     {
-      name = "terraform-bedrock";
-      comment = "Terraform with Bedrock";
+      name = "iam-user";
+      comment = "IAM admin - bootstrap only, not for daily use";
+    }
+
+    # Per-project Terraform profiles — assume role via base terraform identity
+    {
+      name = "tf-splunk-aws";
+      comment = "tf-splunk-aws: EC2, VPC, S3, IAM, SSM, CloudWatch, EventBridge";
+      source_profile = "terraform";
+      role_arn = "arn:aws:iam::${awsAccountId}:role/tf-splunk-aws";
     }
     {
-      name = "iam-user";
-      comment = "IAM user profile";
+      name = "tf-proxmox";
+      comment = "tf-proxmox: Route53 DNS records";
+      source_profile = "terraform";
+      role_arn = "arn:aws:iam::${awsAccountId}:role/tf-proxmox";
+    }
+    {
+      name = "tf-bedrock";
+      comment = "tf-bedrock: Bedrock, CloudFormation, Lambda, IAM, CloudWatch, Budgets";
+      source_profile = "terraform";
+      role_arn = "arn:aws:iam::${awsAccountId}:role/tf-bedrock";
+    }
+    {
+      name = "tf-static-website";
+      comment = "tf-static-website: S3, CloudFront, ACM, Route53";
+      source_profile = "terraform";
+      role_arn = "arn:aws:iam::${awsAccountId}:role/tf-static-website";
     }
   ];
 
   # A function to generate a single profile block from a definition
-  generateProfile = profile: ''
-    # ${profile.comment}
-    [${if profile.name == "default" then "default" else "profile ${profile.name}"}]
-    region = ${defaultRegion}
-    output = ${defaultOutput}
-  '';
+  generateProfile =
+    profile:
+    let
+      base = ''
+        # ${profile.comment}
+        [${if profile.name == "default" then "default" else "profile ${profile.name}"}]
+        region = ${defaultRegion}
+        output = ${defaultOutput}
+      '';
+      role = ''
+        source_profile = ${profile.source_profile}
+        role_arn = ${profile.role_arn}
+      '';
+    in
+    if profile ? role_arn && profile ? source_profile then base + role else base;
 in
 {
   # ~/.aws/config - AWS CLI configuration
