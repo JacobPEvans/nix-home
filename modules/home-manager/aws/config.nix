@@ -45,13 +45,16 @@
 #   mfa_serial       - MFA device ARN (required if role needs MFA)
 #   external_id      - External ID for cross-account roles
 
-{ config, ... }:
+{
+  config,
+  awsAccountId,
+  ...
+}:
 
 let
   # Default values for all profiles (change here to update all)
   defaultRegion = "us-east-2";
   defaultOutput = "json";
-  awsAccountId = "753208779773";
 
   # A single list to define all profiles
   profiles = [

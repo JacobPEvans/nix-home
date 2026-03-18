@@ -23,6 +23,11 @@
     gpg = {
       signingKey = "31652F22BF6AC286";
     };
+    aws = {
+      # AWS account ID — must be provided by the consuming config (e.g. nix-darwin)
+      # Do not hardcode here; retrieve from secrets manager (Doppler, sops, etc.)
+      accountId = "";
+    };
   },
   ...
 }:
@@ -58,7 +63,10 @@ let
   npmFiles = import ./npm/config.nix { inherit config; };
 
   # AWS CLI configuration
-  awsFiles = import ./aws/config.nix { inherit config; };
+  awsFiles = import ./aws/config.nix {
+    inherit config;
+    awsAccountId = userConfig.aws.accountId or "";
+  };
 
   # Linter configurations
   linterFiles = import ./linters/markdownlint.nix { inherit config; };
