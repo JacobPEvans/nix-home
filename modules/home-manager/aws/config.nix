@@ -126,7 +126,7 @@ let
         role_arn = ${profile.role_arn}
       '';
     in
-    if profile ? role_arn && profile ? source_profile then base + "\n" + role else base;
+    if profile ? role_arn && profile ? source_profile then base + role else base;
 in
 {
   # ~/.aws/config - AWS CLI configuration
