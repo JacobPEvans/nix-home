@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -14,6 +15,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       ...
     }:
@@ -41,7 +43,7 @@
       };
 
       # Python packages overlay
-      overlays.default = import ./overlays/python-packages.nix;
+      overlays.default = import ./overlays/python-packages.nix { inherit nixpkgs-unstable; };
 
       # Quality checks (formatting, linting, dead code)
       checks = forAllSystems (
