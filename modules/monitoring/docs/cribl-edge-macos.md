@@ -1,3 +1,4 @@
+<!-- cspell:words APPL powermetrics pmset ioreg sourcetype crbl -->
 # Cribl Edge on macOS (Native Installation)
 
 Native Cribl Edge installation for collecting logs, metrics, and power data from macOS hosts.
@@ -116,7 +117,7 @@ Data flows through Cribl Stream to Splunk (`index=os`, `sourcetype=macos:power:*
 Install the pack:
 
 ```bash
-cp cc-edge-macos-power.crbl /opt/cribl/state/packs/
+sudo curl -L -o /opt/cribl/state/packs/cc-edge-macos-power.crbl https://github.com/JacobPEvans/cc-edge-macos-power/releases/latest/download/cc-edge-macos-power.crbl
 curl -X POST http://localhost:9000/api/v1/packs -H "Content-Type: application/json" -d '{"source":"cc-edge-macos-power.crbl"}'
 curl -X POST http://localhost:9000/api/v1/version/commit
 curl -X POST http://localhost:9000/api/v1/system/settings/restart
