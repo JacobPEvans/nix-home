@@ -1,6 +1,6 @@
 # Cribl Edge on macOS (Native Installation)
 
-Native Cribl Edge installation for collecting logs from macOS hosts.
+Native Cribl Edge installation for collecting logs, metrics, and power data from macOS hosts.
 
 ## Installation
 
@@ -95,18 +95,43 @@ sudo -u cribl cat /Users/$USER/.claude/logs/mcp.jsonl | head -1
 
 If FDA is working, this will output JSON. If not, you'll get "Operation not permitted".
 
-## Known Limitations
+## Capabilities
 
-Per [Cribl Edge macOS documentation](https://docs.cribl.io/edge/edge-macos/):
+As of Cribl Edge 4.16.0+, macOS Edge is **generally available** (no longer Preview) and supports:
 
-> "Edge on macOS does not include support for system metrics or system state at this time."
+- File monitoring (with FDA for protected directories)
+- Log collection (with FDA for protected directories)
+- Exec sources (run arbitrary commands on a schedule)
+- System metrics collection
 
-macOS Cribl Edge is in **Preview** and only supports:
+### Power Monitoring Pack
 
-- File monitoring (with FDA)
-- Log collection (with FDA)
+The [cc-edge-macos-power](https://github.com/JacobPEvans/cc-edge-macos-power) pack uses Exec sources to collect:
 
-For system metrics (CPU, memory, disk, network), use **Telegraf** instead.
+- **Power metrics** (5 min intervals): Per-process energy impact, CPU/GPU/ANE power draw, thermal pressure via `powermetrics`
+- **Battery status** (1 min intervals): Charge %, power source, charging state, cycle count, capacity, health %, temperature via `pmset` + `ioreg`
+
+Data flows through Cribl Stream to Splunk (`index=os`, `sourcetype=macos:power:*`).
+
+Install the pack:
+
+```bash
+cp cc-edge-macos-power.crbl /opt/cribl/state/packs/
+curl -X POST http://localhost:9000/api/v1/packs -H "Content-Type: application/json" -d '{"source":"cc-edge-macos-power.crbl"}'
+curl -X POST http://localhost:9000/api/v1/version/commit
+curl -X POST http://localhost:9000/api/v1/system/settings/restart
+```
+
+### Native Edge → Stream Connectivity
+
+Native macOS Edge connects to Cribl Stream in OrbStack via NodePort:
+
+| Target | URL |
+|--------|-----|
+| Stream HEC | `http://localhost:30088/services/collector` |
+| Stream UI | `http://localhost:30900` |
+
+Configure the Edge output to use the Stream HEC URL above with token `edge-internal`.
 
 ## Ports
 
