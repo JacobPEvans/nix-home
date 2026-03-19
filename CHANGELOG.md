@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.1](https://github.com/JacobPEvans/nix-home/compare/v1.10.0...v1.10.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* add release-please config for manifest mode ([b7e16ed](https://github.com/JacobPEvans/nix-home/commit/b7e16ed71472a808f4fe12602eff2821c87fae9c))
+* sync release-please permissions and VERSION ([d6fccab](https://github.com/JacobPEvans/nix-home/commit/d6fccab566ac2d8b3a978d75e65ab5a47928f668))
+
 ## [1.10.0](https://github.com/JacobPEvans/nix-home/compare/v1.9.0...v1.10.0) (2026-03-18)
 
 
