@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.5](https://github.com/JacobPEvans/nix-home/compare/v1.10.4...v1.10.5) (2026-03-20)
+
+
+### Bug Fixes
+
+* **aws:** use keychain activation hook for account ID ([#95](https://github.com/JacobPEvans/nix-home/issues/95)) ([cdad962](https://github.com/JacobPEvans/nix-home/commit/cdad962f91c4c086346feaf6c539987ea5f48f02))
+
 ## [1.10.4](https://github.com/JacobPEvans/nix-home/compare/v1.10.3...v1.10.4) (2026-03-20)
 
 
