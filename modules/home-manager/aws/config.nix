@@ -49,12 +49,7 @@
   config,
   lib,
   pkgs,
-  userConfig ? {
-    keychain = {
-      aiAccount = "ai-cli-coder";
-      aiDb = "automation.keychain-db";
-    };
-  },
+  userConfig ? { },
   ...
 }:
 
@@ -148,16 +143,16 @@ in
 }
 // lib.optionalAttrs pkgs.stdenv.isDarwin (
   let
-    kcAccount = (userConfig.keychain or { }).aiAccount or "ai-cli-coder";
-    kcDb = (userConfig.keychain or { }).aiDb or "automation.keychain-db";
+    kcAccount = (userConfig.keychain or { }).aiAccount or "";
+    kcDb = (userConfig.keychain or { }).aiDb or "";
   in
   {
     # Activation hook: substitute __AWS_ACCOUNT_ID__ placeholder with value from macOS Keychain
     # Runs after writeBoundary (when home.file entries have been written)
     # Darwin-only: uses macOS `security` CLI for keychain access
-    # One-time setup:
-    #   security unlock-keychain ~/Library/Keychains/automation.keychain-db
-    #   security add-generic-password -U -s "AWS_ACCOUNT_ID" -a "ai-cli-coder" -w "<account-id>" ~/Library/Keychains/automation.keychain-db
+    # One-time setup (values from userConfig.keychain in nix-darwin's lib/user-config.nix):
+    #   security unlock-keychain ~/Library/Keychains/<aiDb>
+    #   security add-generic-password -U -s "AWS_ACCOUNT_ID" -a "<aiAccount>" -w "<account-id>" ~/Library/Keychains/<aiDb>
     activation.awsConfigAccountId = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       _AWS_ACCT_ID=$(security find-generic-password -s "AWS_ACCOUNT_ID" -a "${kcAccount}" -w "${kcDb}" 2>/dev/null || true)
       if [ -z "$_AWS_ACCT_ID" ]; then
