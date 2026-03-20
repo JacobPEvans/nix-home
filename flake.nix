@@ -43,7 +43,10 @@
       };
 
       # Python packages overlay
-      overlays.default = import ./overlays/python-packages.nix { inherit nixpkgs-unstable; };
+      overlays.default = nixpkgs.lib.composeManyExtensions [
+        (import ./overlays/python-packages.nix { inherit nixpkgs-unstable; })
+        (import ./overlays/merge-json-settings.nix)
+      ];
 
       # Quality checks (formatting, linting, dead code)
       checks = forAllSystems (
