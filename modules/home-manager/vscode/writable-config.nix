@@ -64,23 +64,20 @@ let
     else
       ".config/Code/User";
 
-  mergeScript = ../scripts/merge-json-settings.sh;
-  jqExe = lib.getExe pkgs.jq;
+  mergeScript = "${pkgs.merge-json-settings}/bin/merge-json-settings";
 in
 {
   activation = {
     mergeVscodeSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       $DRY_RUN_CMD ${mergeScript} \
         "${settingsJson}" \
-        "${homeDir}/${vscodeConfigDir}/settings.json" \
-        "${jqExe}"
+        "${homeDir}/${vscodeConfigDir}/settings.json"
     '';
 
     mergeVscodeMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       $DRY_RUN_CMD ${mergeScript} \
         "${mcpJson}" \
-        "${homeDir}/${vscodeConfigDir}/mcp.json" \
-        "${jqExe}"
+        "${homeDir}/${vscodeConfigDir}/mcp.json"
     '';
   };
 }
