@@ -148,11 +148,6 @@ with pkgs;
   (python314.withPackages (ps: [
     ps.cryptography # Cryptographic recipes and primitives
     ps.grip # Preview GitHub Markdown files locally
-    # DISABLED: langchain-ollama ultimately depends on python3.13-twisted,
-    # which currently has failing tests (IPv6 TCP timeout errors) in nixpkgs.
-    # Re-enable when the twisted package is fixed upstream.
-    # ps.langchain-ollama # LangChain integration for Ollama
-    ps.ollama # Ollama Python library for local LLM interaction
     ps.pipx # Install and run Python CLI apps in isolated environments
     ps.pygithub # GitHub API v3 Python library
   ]))
