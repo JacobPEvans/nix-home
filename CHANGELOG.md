@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.4](https://github.com/JacobPEvans/nix-home/compare/v1.10.3...v1.10.4) (2026-03-20)
+
+
+### Bug Fixes
+
+* expose merge-json-settings as writeShellApplication ([#100](https://github.com/JacobPEvans/nix-home/issues/100)) ([b3908fb](https://github.com/JacobPEvans/nix-home/commit/b3908fb040dc0b8026c67759319a2c42054c5260))
+
 ## [1.10.3](https://github.com/JacobPEvans/nix-home/compare/v1.10.2...v1.10.3) (2026-03-20)
 
 
