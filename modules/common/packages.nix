@@ -92,14 +92,6 @@ with pkgs;
   doppler # Doppler secrets manager CLI (for CI/CD and team secrets)
 
   # ==========================================================================
-  # Cloud Infrastructure (AWS)
-  # ==========================================================================
-  # AWS tooling for infrastructure management and secure credential handling.
-
-  awscli2 # AWS CLI v2 - unified tool to manage AWS services
-  aws-vault # Secure AWS credential storage (uses OS keychain)
-
-  # ==========================================================================
   # Remote Shell
   # ==========================================================================
   # Resilient mobile shell using UDP - survives network handoffs.
