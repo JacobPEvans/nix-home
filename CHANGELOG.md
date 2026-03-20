@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.3](https://github.com/JacobPEvans/nix-home/compare/v1.10.2...v1.10.3) (2026-03-20)
+
+
+### Bug Fixes
+
+* remove cloud CLIs from global packages ([#98](https://github.com/JacobPEvans/nix-home/issues/98)) ([f5b8e41](https://github.com/JacobPEvans/nix-home/commit/f5b8e41b4a26b8cdc9dc2fa51af3f44bb9477689))
+
 ## [1.10.2](https://github.com/JacobPEvans/nix-home/compare/v1.10.1...v1.10.2) (2026-03-20)
 
 
