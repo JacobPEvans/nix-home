@@ -9,7 +9,7 @@
   lib,
   userConfig ? {
     nix = {
-      homeManagerStateVersion = "25.05";
+      homeManagerStateVersion = "25.11";
     };
     user = {
       name = "jevans";
@@ -21,12 +21,7 @@
       defaultBranch = "main";
     };
     gpg = {
-      signingKey = "31652F22BF6AC286";
-    };
-    aws = {
-      # AWS account ID — must be provided by the consuming config (e.g. nix-darwin)
-      # Do not hardcode here; retrieve from secrets manager (Doppler, sops, etc.)
-      accountId = "";
+      signingKey = "";
     };
   },
   ...
@@ -62,10 +57,14 @@ let
   # npm configuration
   npmFiles = import ./npm/config.nix { inherit config; };
 
-  # AWS CLI configuration
-  awsFiles = import ./aws/config.nix {
-    inherit config;
-    awsAccountId = userConfig.aws.accountId or "";
+  # AWS CLI configuration (account ID substituted from keychain at activation time)
+  awsConfig = import ./aws/config.nix {
+    inherit
+      config
+      lib
+      pkgs
+      userConfig
+      ;
   };
 
   # Linter configurations
@@ -78,7 +77,12 @@ in
     # User dev tools (pre-commit, linters, Python, AWS, etc.)
     packages = commonPackages;
 
-    file = npmFiles // awsFiles // linterFiles // gitHooks // gitMergeDrivers;
+    file =
+      npmFiles
+      // (builtins.removeAttrs awsConfig [ "activation" ])
+      // linterFiles
+      // gitHooks
+      // gitMergeDrivers;
 
     sessionVariables = {
       EDITOR = "vim";
@@ -89,7 +93,7 @@ in
       SCCACHE_CACHE_SIZE = "5G";
     };
 
-    inherit (vscodeWritableConfig) activation;
+    activation = vscodeWritableConfig.activation // (awsConfig.activation or { });
   };
 
   programs = {
