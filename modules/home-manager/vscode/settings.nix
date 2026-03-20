@@ -121,9 +121,6 @@ in
     "launchctl bootout" = true;
     "launchctl list" = true;
     "launchctl print" = true;
-    "ollama list" = true;
-    "ollama run" = true;
-    "ollama --version" = true;
     "python --version" = true;
     "python3 --version" = true;
     "source" = true;
