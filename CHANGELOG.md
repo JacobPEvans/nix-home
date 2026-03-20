@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.2](https://github.com/JacobPEvans/nix-home/compare/v1.10.1...v1.10.2) (2026-03-20)
+
+
+### Bug Fixes
+
+* remove Ollama from packages, VS Code settings, and shell aliases ([#96](https://github.com/JacobPEvans/nix-home/issues/96)) ([30a560c](https://github.com/JacobPEvans/nix-home/commit/30a560cb8f480716a5a25f0a4ca4fd7d6b3aa227))
+
 ## [1.10.1](https://github.com/JacobPEvans/nix-home/compare/v1.10.0...v1.10.1) (2026-03-19)
 
 
