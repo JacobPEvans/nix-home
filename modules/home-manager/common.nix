@@ -7,23 +7,7 @@
   config,
   pkgs,
   lib,
-  userConfig ? {
-    nix = {
-      homeManagerStateVersion = "25.05";
-    };
-    user = {
-      name = "jevans";
-      email = "20714140+JacobPEvans@users.noreply.github.com";
-      fullName = "JacobPEvans";
-    };
-    git = {
-      editor = "vim";
-      defaultBranch = "main";
-    };
-    gpg = {
-      signingKey = "31652F22BF6AC286";
-    };
-  },
+  userConfig ? { },
   ...
 }:
 
