@@ -155,12 +155,15 @@ in
     # Activation hook: substitute __AWS_ACCOUNT_ID__ placeholder with value from macOS Keychain
     # Runs after writeBoundary (when home.file entries have been written)
     # Darwin-only: uses macOS `security` CLI for keychain access
-    # One-time setup: security add-generic-password -U -s "AWS_ACCOUNT_ID" -a "ai-cli-coder" -w "<account-id>" automation.keychain-db
+    # One-time setup:
+    #   security unlock-keychain ~/Library/Keychains/automation.keychain-db
+    #   security add-generic-password -U -s "AWS_ACCOUNT_ID" -a "ai-cli-coder" -w "<account-id>" ~/Library/Keychains/automation.keychain-db
     activation.awsConfigAccountId = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       _AWS_ACCT_ID=$(security find-generic-password -s "AWS_ACCOUNT_ID" -a "${kcAccount}" -w "${kcDb}" 2>/dev/null || true)
       if [ -z "$_AWS_ACCT_ID" ]; then
         echo "WARNING: AWS_ACCOUNT_ID not found in keychain. ~/.aws/config role ARNs will be broken."
-        echo "  Fix: security add-generic-password -U -s AWS_ACCOUNT_ID -a ${kcAccount} -w YOUR_ACCOUNT_ID ${kcDb}"
+        echo "  Fix: security unlock-keychain ~/Library/Keychains/${kcDb}"
+        echo "        security add-generic-password -U -s AWS_ACCOUNT_ID -a ${kcAccount} -w YOUR_ACCOUNT_ID ~/Library/Keychains/${kcDb}"
       else
         ${pkgs.gnused}/bin/sed -i "s/${accountIdPlaceholder}/$_AWS_ACCT_ID/g" ${config.home.homeDirectory}/.aws/config
       fi
