@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.6](https://github.com/JacobPEvans/nix-home/compare/v1.10.5...v1.10.6) (2026-03-22)
+
+
+### Bug Fixes
+
+* move security-policies to nix-home, clarify git tooling docs ([#105](https://github.com/JacobPEvans/nix-home/issues/105)) ([ceed895](https://github.com/JacobPEvans/nix-home/commit/ceed895fbd3015caeb1b0c7bab18cb95c54da7ac))
+
 ## [1.10.5](https://github.com/JacobPEvans/nix-home/compare/v1.10.4...v1.10.5) (2026-03-20)
 
 
