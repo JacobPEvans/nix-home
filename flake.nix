@@ -94,5 +94,10 @@
 
       # Formatter
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+
+      # Library exports
+      lib = {
+        security-policies = import ./lib/security-policies.nix;
+      };
     };
 }
