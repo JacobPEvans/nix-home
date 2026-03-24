@@ -14,6 +14,7 @@
 
 buildPythonPackage rec {
   pname = "grip";
+  # renovate: datasource=pypi depName=grip
   version = "4.6.2";
   pyproject = true;
 
