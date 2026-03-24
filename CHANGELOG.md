@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.7](https://github.com/JacobPEvans/nix-home/compare/v1.10.6...v1.10.7) (2026-03-24)
+
+
+### Bug Fixes
+
+* add tf-runs-on aws-vault profile for RunsOn infrastructure ([#108](https://github.com/JacobPEvans/nix-home/issues/108)) ([7156895](https://github.com/JacobPEvans/nix-home/commit/715689594c3ef5d8ef93109ed6747f7c678e1a20))
+
 ## [1.10.6](https://github.com/JacobPEvans/nix-home/compare/v1.10.5...v1.10.6) (2026-03-22)
 
 
