@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.8](https://github.com/JacobPEvans/nix-home/compare/v1.10.7...v1.10.8) (2026-03-24)
+
+
+### Bug Fixes
+
+* **deps:** add Renovate annotations for custom Nix packages ([#110](https://github.com/JacobPEvans/nix-home/issues/110)) ([73c7d15](https://github.com/JacobPEvans/nix-home/commit/73c7d15f188125b07b4ad2c80cac5c9631978e53))
+
 ## [1.10.7](https://github.com/JacobPEvans/nix-home/compare/v1.10.6...v1.10.7) (2026-03-24)
 
 
