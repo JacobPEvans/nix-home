@@ -117,6 +117,12 @@ let
       source_profile = "terraform";
       role_arn = "arn:aws:iam::${accountIdPlaceholder}:role/tf-static-website";
     }
+    {
+      name = "tf-runs-on";
+      comment = "tf-runs-on: EC2, App Runner, SQS, DynamoDB, S3, IAM, CloudWatch, Budgets, SNS";
+      source_profile = "terraform";
+      role_arn = "arn:aws:iam::${accountIdPlaceholder}:role/tf-runs-on";
+    }
   ];
 
   # A function to generate a single profile block from a definition
