@@ -6,6 +6,7 @@
 
 pkgs.buildGoModule rec {
   pname = "git-flow-next";
+  # renovate: datasource=github-releases depName=gittower/git-flow-next
   version = "1.0.0";
 
   src = fetchFromGitHub {
