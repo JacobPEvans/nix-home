@@ -52,6 +52,7 @@ with pkgs;
   tree # Directory tree visualization
   watchexec # File watcher that re-executes commands on changes
   yq # YAML parsing (like jq but for YAML/XML/TOML)
+  zellij # Modern terminal multiplexer (Rust, layout engine)
 
   # ==========================================================================
   # Universal Linters
