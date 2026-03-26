@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.1](https://github.com/JacobPEvans/nix-home/compare/v1.11.0...v1.11.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* write aws config from activation script instead of home.file ([a66763e](https://github.com/JacobPEvans/nix-home/commit/a66763ee2e918da3a4c9b2c01152814c1d465f21))
+
 ## [1.11.0](https://github.com/JacobPEvans/nix-home/compare/v1.10.8...v1.11.0) (2026-03-26)
 
 
