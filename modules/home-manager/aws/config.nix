@@ -151,11 +151,6 @@ let
   kcDb = (userConfig.keychain or { }).aiDb or "";
 in
 lib.optionalAttrs pkgs.stdenv.isDarwin {
-  # Write ~/.aws/config directly from the activation script with account ID
-  # substituted from macOS Keychain. Replaces the broken home.file + sed approach.
-  # One-time keychain setup (values from userConfig.keychain in nix-darwin's lib/user-config.nix):
-  #   security unlock-keychain ~/Library/Keychains/<aiDb>
-  #   security add-generic-password -U -s "AWS_ACCOUNT_ID" -a "<aiAccount>" -w "<account-id>" ~/Library/Keychains/<aiDb>
   activation.awsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "$(dirname "${configPath}")"
 
