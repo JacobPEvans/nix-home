@@ -145,6 +145,7 @@ let
   # home.file creates immutable nix store symlinks that sed cannot modify in-place,
   # so the __AWS_ACCOUNT_ID__ placeholder was never being substituted.
   configContent = builtins.concatStringsSep "\n\n" (map generateProfile profiles);
+  configContentFile = pkgs.writeText "aws-config-template" configContent;
   configPath = "${config.home.homeDirectory}/.aws/config";
   kcAccount = (userConfig.keychain or { }).aiAccount or "";
   kcDb = (userConfig.keychain or { }).aiDb or "";
@@ -156,26 +157,24 @@ lib.optionalAttrs pkgs.stdenv.isDarwin {
   #   security unlock-keychain ~/Library/Keychains/<aiDb>
   #   security add-generic-password -U -s "AWS_ACCOUNT_ID" -a "<aiAccount>" -w "<account-id>" ~/Library/Keychains/<aiDb>
   activation.awsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        mkdir -p "$(dirname "${configPath}")"
+    mkdir -p "$(dirname "${configPath}")"
 
-        # Remove stale nix store symlink from previous home.file management
-        [ -L "${configPath}" ] && rm -f "${configPath}"
+    # Remove stale nix store symlink from previous home.file management
+    [ -L "${configPath}" ] && rm -f "${configPath}"
 
-        _AWS_ACCT_ID=$(security find-generic-password -s "AWS_ACCOUNT_ID" -a "${kcAccount}" -w "${kcDb}" 2>/dev/null || true)
-        if [ -z "$_AWS_ACCT_ID" ]; then
-          echo "WARNING: AWS_ACCOUNT_ID not found in keychain. ~/.aws/config role ARNs will contain placeholders."
-          echo "  Fix: security unlock-keychain ~/Library/Keychains/${kcDb}"
-          echo "        security add-generic-password -U -s AWS_ACCOUNT_ID -a ${kcAccount} -w YOUR_ACCOUNT_ID ~/Library/Keychains/${kcDb}"
-        fi
+    _AWS_ACCT_ID=$(security find-generic-password -s "AWS_ACCOUNT_ID" -a "${kcAccount}" -w "${kcDb}" 2>/dev/null || true)
+    if [ -z "$_AWS_ACCT_ID" ]; then
+      echo "WARNING: AWS_ACCOUNT_ID not found in keychain. ~/.aws/config role ARNs will contain placeholders."
+      echo "  Fix: security unlock-keychain ~/Library/Keychains/${kcDb}"
+      echo "        security add-generic-password -U -s AWS_ACCOUNT_ID -a ${kcAccount} -w YOUR_ACCOUNT_ID ~/Library/Keychains/${kcDb}"
+    fi
 
-        cat > "${configPath}" << 'AWSEOF'
-    ${configContent}
-    AWSEOF
+    cat "${configContentFile}" > "${configPath}"
 
-        # Substitute placeholder with real account ID if available
-        if [ -n "$_AWS_ACCT_ID" ]; then
-          ${pkgs.gnused}/bin/sed -i "s/${accountIdPlaceholder}/$_AWS_ACCT_ID/g" "${configPath}"
-        fi
+    # Substitute placeholder with real account ID if available
+    if [ -n "$_AWS_ACCT_ID" ]; then
+      ${pkgs.gnused}/bin/sed -i "s/${accountIdPlaceholder}/$_AWS_ACCT_ID/g" "${configPath}"
+    fi
   '';
 }
 // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
