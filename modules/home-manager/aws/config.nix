@@ -1,49 +1,11 @@
 # AWS CLI Configuration
 #
-# Manages AWS CLI configuration via home-manager.
-# The config file sets default region and output format.
+# Manages ~/.aws/config via home-manager.
+# On Darwin, an activation script writes the file directly so that
+# the __AWS_ACCOUNT_ID__ placeholder can be substituted from macOS Keychain.
+# home.file creates immutable nix store symlinks that sed cannot modify in-place.
 #
-# Files managed:
-#   ~/.aws/config - AWS CLI profiles and settings
-#
-# Files NOT managed (contain secrets):
-#   ~/.aws/credentials - Access keys (use aws-vault instead)
-#
-# Security:
-#   - Use aws-vault for credential management (uses macOS Keychain)
-#   - Never store access keys in ~/.aws/credentials directly
-#   - Use IAM Identity Center (SSO) or short-term credentials
-#
-# Usage:
-#   aws configure list                      # Show current configuration
-#   aws sts get-caller-identity             # Verify credentials
-#   aws-vault exec <profile> -- aws s3 ls   # Execute with vault credentials
-#
-# Profile inheritance:
-#   - [default] is the literal default profile (used when no --profile specified)
-#   - Other profiles do NOT inherit from [default] automatically
-#   - Use source_profile to chain profiles for role assumption
-#
-# Common config options (per profile):
-#   region           - AWS region (us-east-2, etc.)
-#   output           - Format: json, yaml, text, table
-#   cli_pager        - Pager for output (empty string to disable)
-#   cli_auto_prompt  - Auto-prompt mode: on, on-partial, off
-#   retry_mode       - Retry strategy: legacy, standard, adaptive
-#   max_attempts     - Max retry attempts (default: 5)
-#   duration_seconds - Session duration for assumed roles (900-43200)
-#
-# SSO options (IAM Identity Center):
-#   sso_start_url    - Portal URL
-#   sso_region       - SSO endpoint region
-#   sso_account_id   - AWS account ID
-#   sso_role_name    - Role to assume
-#
-# Role assumption options:
-#   role_arn         - Role ARN to assume
-#   source_profile   - Profile with credentials for assuming role
-#   mfa_serial       - MFA device ARN (required if role needs MFA)
-#   external_id      - External ID for cross-account roles
+# Credentials: use aws-vault (backed by macOS Keychain), never ~/.aws/credentials.
 
 {
   config,
@@ -54,14 +16,12 @@
 }:
 
 let
-  # Default values for all profiles (change here to update all)
   defaultRegion = "us-east-2";
   defaultOutput = "json";
 
   # Placeholder replaced at activation time by keychain lookup
   accountIdPlaceholder = "__AWS_ACCOUNT_ID__";
 
-  # A single list to define all profiles
   profiles = [
     {
       name = "default";
@@ -125,10 +85,10 @@ let
     }
   ];
 
-  # A function to generate a single profile block from a definition
   generateProfile =
     profile:
     let
+      # AWS CLI format: default profile has no "profile " prefix
       base = ''
         # ${profile.comment}
         [${if profile.name == "default" then "default" else "profile ${profile.name}"}]
@@ -141,9 +101,7 @@ let
       '';
     in
     if profile ? role_arn && profile ? source_profile then base + role else base;
-  # ~/.aws/config — written by activation script on Darwin, NOT home.file.
-  # home.file creates immutable nix store symlinks that sed cannot modify in-place,
-  # so the __AWS_ACCOUNT_ID__ placeholder was never being substituted.
+
   configContent = builtins.concatStringsSep "\n\n" (map generateProfile profiles);
   configContentFile = pkgs.writeText "aws-config-template" configContent;
   configPath = "${config.home.homeDirectory}/.aws/config";
@@ -152,27 +110,22 @@ let
 in
 lib.optionalAttrs pkgs.stdenv.isDarwin {
   activation.awsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p "$(dirname "${configPath}")"
-
-    # Remove stale nix store symlink from previous home.file management
-    [ -L "${configPath}" ] && rm -f "${configPath}"
+    mkdir -p "${config.home.homeDirectory}/.aws"
+    rm -f "${configPath}"
 
     _AWS_ACCT_ID=$(security find-generic-password -s "AWS_ACCOUNT_ID" -a "${kcAccount}" -w "${kcDb}" 2>/dev/null || true)
     if [ -z "$_AWS_ACCT_ID" ]; then
       echo "WARNING: AWS_ACCOUNT_ID not found in keychain. ~/.aws/config role ARNs will contain placeholders."
-      echo "  Fix: security unlock-keychain ~/Library/Keychains/${kcDb}"
-      echo "        security add-generic-password -U -s AWS_ACCOUNT_ID -a ${kcAccount} -w YOUR_ACCOUNT_ID ~/Library/Keychains/${kcDb}"
+      echo "  Fix: security add-generic-password -U -s AWS_ACCOUNT_ID -a ${kcAccount} -w YOUR_ACCOUNT_ID ~/Library/Keychains/${kcDb}"
     fi
 
-    cat "${configContentFile}" > "${configPath}"
-
-    # Substitute placeholder with real account ID if available
     if [ -n "$_AWS_ACCT_ID" ]; then
-      ${pkgs.gnused}/bin/sed -i "s/${accountIdPlaceholder}/$_AWS_ACCT_ID/g" "${configPath}"
+      ${pkgs.gnused}/bin/sed "s/${accountIdPlaceholder}/$_AWS_ACCT_ID/g" "${configContentFile}" > "${configPath}"
+    else
+      cat "${configContentFile}" > "${configPath}"
     fi
   '';
 }
 // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
-  # Non-Darwin: use standard home.file (no keychain substitution needed)
   ".aws/config".text = configContent;
 }
