@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/JacobPEvans/nix-home/compare/v1.10.8...v1.11.0) (2026-03-26)
+
+
+### Features
+
+* **packages:** add zellij terminal multiplexer ([#113](https://github.com/JacobPEvans/nix-home/issues/113)) ([a6a8259](https://github.com/JacobPEvans/nix-home/commit/a6a82594a97cecabdf691dfeb4c97402c5ea5e13))
+
 ## [1.10.8](https://github.com/JacobPEvans/nix-home/compare/v1.10.7...v1.10.8) (2026-03-24)
 
 
