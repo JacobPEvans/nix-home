@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/JacobPEvans/nix-home/compare/v1.11.1...v1.12.0) (2026-03-30)
+
+
+### Features
+
+* add Google Workspace CLI tools (gmailctl, rclone, gdrive3) ([#103](https://github.com/JacobPEvans/nix-home/issues/103)) ([8cb77ec](https://github.com/JacobPEvans/nix-home/commit/8cb77eca40830850397644bf99cabe265e912a34))
+
 ## [1.11.1](https://github.com/JacobPEvans/nix-home/compare/v1.11.0...v1.11.1) (2026-03-26)
 
 
