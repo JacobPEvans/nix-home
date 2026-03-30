@@ -99,6 +99,15 @@ with pkgs;
   mosh
 
   # ==========================================================================
+  # Google Workspace CLI Tools
+  # ==========================================================================
+  # CLI tools for managing Gmail filters, Google Drive sync, and file management.
+
+  gmailctl # Declarative Gmail filter management via Jsonnet (apply/diff/test)
+  rclone # Cloud storage sync — Google Drive, S3, and 70+ backends
+  gdrive3 # Google Drive CLI — upload, download, list, share, sync
+
+  # ==========================================================================
   # HTTP & API Tools
   # ==========================================================================
   # Tools for testing and working with HTTP APIs and web services.
