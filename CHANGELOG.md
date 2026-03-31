@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/JacobPEvans/nix-home/compare/v1.12.0...v1.12.1) (2026-03-31)
+
+
+### Bug Fixes
+
+* **deps:** update all flake inputs ([#118](https://github.com/JacobPEvans/nix-home/issues/118)) ([7c9041b](https://github.com/JacobPEvans/nix-home/commit/7c9041b0161892c3266e052ab48c437dc1bb3b6c))
+
 ## [1.12.0](https://github.com/JacobPEvans/nix-home/compare/v1.11.1...v1.12.0) (2026-03-30)
 
 
