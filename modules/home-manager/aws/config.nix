@@ -112,4 +112,11 @@ let
 in
 {
   initScript = ensureScript;
+  files =
+    if pkgs.stdenv.isDarwin then
+      { }
+    else
+      {
+        ".aws/config".text = configContent;
+      };
 }

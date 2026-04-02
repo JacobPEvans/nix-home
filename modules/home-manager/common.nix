@@ -75,7 +75,7 @@ in
     # User dev tools (pre-commit, linters, Python, AWS, etc.)
     packages = commonPackages;
 
-    file = npmFiles // linterFiles // gitHooks // gitMergeDrivers;
+    file = npmFiles // awsConfig.files // linterFiles // gitHooks // gitMergeDrivers;
 
     sessionVariables = {
       EDITOR = "vim";
@@ -133,7 +133,7 @@ in
         export PATH="$HOME/.local/bin:$PATH"
 
         # --- Shell modules ---
-        source ${awsConfig.initScript}
+        ${lib.optionalString pkgs.stdenv.isDarwin "source ${awsConfig.initScript}"}
         source ${./zsh/git-functions.zsh}
         source ${./zsh/docker-functions.zsh}
         source ${./zsh/process-cleanup.zsh}
