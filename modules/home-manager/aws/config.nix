@@ -1,15 +1,11 @@
 # AWS CLI Configuration
 #
-# Manages ~/.aws/config via home-manager.
-# On Darwin, an activation script writes the file directly so that
-# the __AWS_ACCOUNT_ID__ placeholder can be substituted from macOS Keychain.
-# home.file creates immutable nix store symlinks that sed cannot modify in-place.
-#
+# Manages ~/.aws/config via shell init (not home.activation).
+# Profile structure defined here in Nix (single source of truth).
+# Account ID injected from macOS Keychain at shell startup via ensure-config.zsh.
 # Credentials: use aws-vault (backed by macOS Keychain), never ~/.aws/credentials.
 
 {
-  config,
-  lib,
   pkgs,
   userConfig ? { },
   ...
@@ -19,7 +15,7 @@ let
   defaultRegion = "us-east-2";
   defaultOutput = "json";
 
-  # Placeholder replaced at activation time by keychain lookup
+  # Placeholder replaced at shell init by keychain lookup
   accountIdPlaceholder = "__AWS_ACCOUNT_ID__";
 
   profiles = [
@@ -104,28 +100,16 @@ let
 
   configContent = builtins.concatStringsSep "\n\n" (map generateProfile profiles);
   configContentFile = pkgs.writeText "aws-config-template" configContent;
-  configPath = "${config.home.homeDirectory}/.aws/config";
   kcAccount = (userConfig.keychain or { }).aiAccount or "";
   kcDb = (userConfig.keychain or { }).aiDb or "";
+
+  ensureScript = pkgs.replaceVars ./ensure-config.zsh {
+    templatePath = configContentFile;
+    inherit kcAccount kcDb;
+    placeholder = accountIdPlaceholder;
+    sed = "${pkgs.gnused}/bin/sed";
+  };
 in
-lib.optionalAttrs pkgs.stdenv.isDarwin {
-  activation.awsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p "${config.home.homeDirectory}/.aws"
-    rm -f "${configPath}"
-
-    _AWS_ACCT_ID=$(security find-generic-password -s "AWS_ACCOUNT_ID" -a "${kcAccount}" -w "${kcDb}" 2>/dev/null || true)
-    if [ -z "$_AWS_ACCT_ID" ]; then
-      echo "WARNING: AWS_ACCOUNT_ID not found in keychain. ~/.aws/config role ARNs will contain placeholders."
-      echo "  Fix: security add-generic-password -U -s AWS_ACCOUNT_ID -a ${kcAccount} -w YOUR_ACCOUNT_ID ~/Library/Keychains/${kcDb}"
-    fi
-
-    if [ -n "$_AWS_ACCT_ID" ]; then
-      ${pkgs.gnused}/bin/sed "s/${accountIdPlaceholder}/$_AWS_ACCT_ID/g" "${configContentFile}" > "${configPath}"
-    else
-      cat "${configContentFile}" > "${configPath}"
-    fi
-  '';
-}
-// lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
-  ".aws/config".text = configContent;
+{
+  initScript = ensureScript;
 }
