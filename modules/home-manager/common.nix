@@ -57,11 +57,9 @@ let
   # npm configuration
   npmFiles = import ./npm/config.nix { inherit config; };
 
-  # AWS CLI configuration (account ID substituted from keychain at activation time)
+  # AWS CLI configuration (account ID substituted from keychain at shell init)
   awsConfig = import ./aws/config.nix {
     inherit
-      config
-      lib
       pkgs
       userConfig
       ;
@@ -77,12 +75,7 @@ in
     # User dev tools (pre-commit, linters, Python, AWS, etc.)
     packages = commonPackages;
 
-    file =
-      npmFiles
-      // (builtins.removeAttrs awsConfig [ "activation" ])
-      // linterFiles
-      // gitHooks
-      // gitMergeDrivers;
+    file = npmFiles // awsConfig.files // linterFiles // gitHooks // gitMergeDrivers;
 
     sessionVariables = {
       EDITOR = "vim";
@@ -93,7 +86,7 @@ in
       SCCACHE_CACHE_SIZE = "5G";
     };
 
-    activation = vscodeWritableConfig.activation // (awsConfig.activation or { });
+    inherit (vscodeWritableConfig) activation;
   };
 
   programs = {
@@ -140,6 +133,7 @@ in
         export PATH="$HOME/.local/bin:$PATH"
 
         # --- Shell modules ---
+        ${lib.optionalString pkgs.stdenv.isDarwin "source ${awsConfig.initScript}"}
         source ${./zsh/git-functions.zsh}
         source ${./zsh/docker-functions.zsh}
         source ${./zsh/process-cleanup.zsh}
