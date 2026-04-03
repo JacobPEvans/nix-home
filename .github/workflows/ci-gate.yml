@@ -48,6 +48,7 @@ jobs:
     outputs:
       nix: ${{ steps.filter.outputs.nix }}
       markdown: ${{ steps.filter.outputs.markdown }}
+      is-deps-only: ${{ steps.detect-deps.outputs.is-deps-only }}
     steps:
       - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v4
@@ -64,6 +65,13 @@ jobs:
             markdown:
               - '**.md'
               - '.markdownlint*'
+
+      - name: Detect Dependency-Only Commits
+        id: detect-deps
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          COMMIT_MSG: ${{ github.event.pull_request.title }}
+        run: ./scripts/workflows/detect-deps-only.sh
 
   # ==========================================================================
   # CONDITIONAL CHECKS (call reusable workflows)
@@ -88,17 +96,29 @@ jobs:
     if: needs.changes.outputs.nix == 'true' || needs.changes.outputs.markdown == 'true'
     uses: JacobPEvans/.github/.github/workflows/_file-size.yml@main
 
+  # Auto-fix Nix package hashes on Renovate PRs (version-only bumps break hashes)
+  nix-hash-autofix:
+    name: Nix Hash Auto-Fix
+    needs: changes
+    if: >-
+      needs.changes.outputs.nix == 'true' &&
+      needs.changes.outputs.is-deps-only == 'true'
+    uses: JacobPEvans/.github/.github/workflows/_nix-hash-autofix.yml@main
+    with:
+      packages: "git-flow-next grip"
+    secrets: inherit
+
   # ==========================================================================
   # MERGE GATE - The ONLY required check in branch protection
   # ==========================================================================
   gate:
     name: Merge Gate
-    needs: [changes, nix-validate, markdown-lint, file-size]
+    needs: [changes, nix-validate, markdown-lint, file-size, nix-hash-autofix]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - name: Check all results
         uses: re-actors/alls-green@release/v1
         with:
-          allowed-skips: nix-validate, markdown-lint, file-size
+          allowed-skips: nix-validate, markdown-lint, file-size, nix-hash-autofix
           jobs: ${{ toJSON(needs) }}
