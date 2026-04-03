@@ -9,13 +9,13 @@
 # - grip: PyPI Python package (via nix-update)
 #
 # Triggers:
-# - Weekly Monday at 8am UTC (schedule)
+# - Daily at 8am UTC (schedule)
 # - Manual (workflow_dispatch)
 name: Update Custom Packages
 
 on:
   schedule:
-    - cron: "0 8 * * 1"  # Weekly Monday 8am UTC
+    - cron: "0 8 * * *"  # Daily 8am UTC
   workflow_dispatch: {}
 
 concurrency:
