@@ -55,6 +55,14 @@ with pkgs;
   zellij # Modern terminal multiplexer (Rust, layout engine)
 
   # ==========================================================================
+  # Visualization & Diagramming
+  # ==========================================================================
+  # CLI tools for generating diagrams from text/code.
+
+  d2 # Modern diagram scripting language (D2lang)
+  mermaid-cli # Mermaid diagram generator CLI (mmdc)
+
+  # ==========================================================================
   # Universal Linters
   # ==========================================================================
   # These are the most common linters used across projects. They support
