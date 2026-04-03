@@ -6,13 +6,5 @@
   ],
   "nix": {
     "enabled": true
-  },
-  "packageRules": [
-    {
-      "description": "Disable Renovate for packages managed by nix-update workflow (deps-update-packages.yml handles version + hash updates)",
-      "matchManagers": ["custom.regex"],
-      "matchPackageNames": ["gittower/git-flow-next"],
-      "enabled": false
-    }
-  ]
+  }
 }

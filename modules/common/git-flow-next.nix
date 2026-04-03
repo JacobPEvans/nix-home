@@ -6,7 +6,7 @@
 
 pkgs.buildGoModule rec {
   pname = "git-flow-next";
-  # managed by: deps-update-packages.yml (nix-update handles version + hash together)
+  # renovate: datasource=github-releases depName=gittower/git-flow-next
   version = "1.0.0";
 
   src = fetchFromGitHub {
