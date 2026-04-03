@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/JacobPEvans/nix-home/compare/v1.13.0...v1.13.1) (2026-04-03)
+
+
+### Bug Fixes
+
+* **deps:** switch git-flow-next to daily nix-update ([#124](https://github.com/JacobPEvans/nix-home/issues/124)) ([75a5524](https://github.com/JacobPEvans/nix-home/commit/75a5524f7d29b03856e0db2bac4a8c0b4214c847))
+
 ## [1.13.0](https://github.com/JacobPEvans/nix-home/compare/v1.12.1...v1.13.0) (2026-04-03)
 
 
