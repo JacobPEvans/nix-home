@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.13.0](https://github.com/JacobPEvans/nix-home/compare/v1.12.1...v1.13.0) (2026-04-03)
+
+
+### Features
+
+* **packages:** add D2 and mermaid-cli diagram tools ([#123](https://github.com/JacobPEvans/nix-home/issues/123)) ([2ce1a69](https://github.com/JacobPEvans/nix-home/commit/2ce1a6924c38861b801fd0cb12b2cc480c5c46f0))
+
+
+### Bug Fixes
+
+* **aws:** move config generation from activation to shell init ([1eeb6a3](https://github.com/JacobPEvans/nix-home/commit/1eeb6a3cfc810bcb31141e727150807865ce8e52))
+
 ## [1.12.1](https://github.com/JacobPEvans/nix-home/compare/v1.12.0...v1.12.1) (2026-03-31)
 
 
