@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.2](https://github.com/JacobPEvans/nix-home/compare/v1.13.1...v1.13.2) (2026-04-04)
+
+
+### Bug Fixes
+
+* remove claude-review workflow — replaced by Gemini + Copilot ([#126](https://github.com/JacobPEvans/nix-home/issues/126)) ([10eaedd](https://github.com/JacobPEvans/nix-home/commit/10eaedda1ab6decade0cfe7f714b3ebbe8ef6a91))
+
 ## [1.13.1](https://github.com/JacobPEvans/nix-home/compare/v1.13.0...v1.13.1) (2026-04-03)
 
 
